@@ -2,340 +2,720 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ubi app</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Crypto-JS para Cifrado AES-256 y SHA-256 en segundo plano -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ubii App</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        :root {
+            --ubii-bg: #15161B;
+            --ubii-card: #21232B;
+            --ubii-border: #2D303B;
+            --ubii-blue: #00B2FF;
+            --ubii-cyan: #00E5FF;
+            --text-main: #FFFFFF;
+            --text-muted: #8E92A0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #121316;
-            color: #FFFFFF;
+            background-color: #0B0C0E;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        .bg-dark-card { background-color: #18191E; }
-        .bg-dark-main { background-color: #121316; }
-        .border-dark { border-color: #2A2C35; }
-        
-        @keyframes scaleUp {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+
+        .mobile-shell {
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            max-height: 880px;
+            background-color: var(--ubii-bg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
         }
-        .animate-success {
-            animation: scaleUp 0.3s ease-out forwards;
+
+        @media (min-width: 450px) {
+            .mobile-shell {
+                border-radius: 36px;
+                height: 840px;
+                border: 2px solid var(--ubii-border);
+                box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            }
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* ---------------- VISTA 1: LOGIN UBII ---------------- */
+        #loginScreen {
+            background: linear-gradient(180deg, #00C8FE 0%, #0088FF 45%, #6A1B9A 100%);
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px 24px 30px 24px;
+            text-align: center;
+        }
+
+        .login-logo-box {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .ubii-logo-text {
+            font-size: 42px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+        }
+
+        .ubii-dots {
+            display: flex;
+            gap: 3px;
+            margin-right: 2px;
+            margin-top: -18px;
+        }
+
+        .ubii-dot {
+            width: 6px;
+            height: 6px;
+            background-color: white;
+            border-radius: 1px;
+        }
+
+        .login-form-area {
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .field-group {
+            position: relative;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .field-label {
+            font-size: 15px;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .ubii-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            padding: 8px 0;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            font-weight: 500;
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: right;
+            color: white;
+            font-size: 13px;
+            text-decoration: none;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+
+        .login-action-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+        .btn-entrar-main {
+            flex: 1;
+            background: white;
+            color: #0088FF;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-biometric {
+            width: 52px;
+            height: 52px;
+            background: white;
+            border: none;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-biometric svg {
+            width: 32px;
+            height: 32px;
+            fill: #0088FF;
+        }
+
+        .support-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: white;
+            font-size: 13px;
+            text-decoration: none;
+            opacity: 0.95;
+        }
+
+        .register-footer-link {
+            color: white;
+            font-size: 14px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* ---------------- VISTA 2: DASHBOARD ---------------- */
+        #dashboardScreen {
+            padding: 16px 16px 80px 16px;
+        }
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            margin-top: 8px;
+        }
+
+        .greeting-text h3 {
+            font-size: 16px;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .greeting-text h2 {
+            font-size: 20px;
+            color: var(--text-main);
+            font-weight: 800;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .qr-icon-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .avatar-circle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #2A2D3A;
+            overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--ubii-border);
+        }
+
+        .avatar-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-circle svg {
+            width: 24px;
+            height: 24px;
+            fill: #8E92A0;
+        }
+
+        .card-box {
+            background-color: var(--ubii-card);
+            border: 1px solid var(--ubii-border);
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+
+        .card-row-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-main);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .currency-tag {
+            background: #2D303C;
+            color: #A0A5B5;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .nivel-pill {
+            background: rgba(0, 178, 255, 0.15);
+            color: var(--ubii-blue);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .credit-title {
+            font-size: 14px;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .credit-debt {
+            font-size: 12px;
+            color: #A0A5B5;
+        }
+
+        .credit-amount {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--ubii-blue);
+            margin: 4px 0 10px 0;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 5px;
+            background: #2D303C;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--ubii-blue);
+        }
+
+        .btn-creditos {
+            width: 100%;
+            background: linear-gradient(90deg, #00A3FF, #0066FF);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .section-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 20px 0 12px 0;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .service-card {
+            background: var(--ubii-card);
+            border: 1px solid var(--ubii-border);
+            border-radius: 16px;
+            padding: 14px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            min-height: 85px;
+        }
+
+        .service-card-icon {
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .service-card-title {
+            font-size: 10.5px;
+            color: #A0A5B5;
+            line-height: 1.2;
+            font-weight: 500;
+        }
+
+        .tag-nuevo {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #FF0055;
+            color: white;
+            font-size: 8px;
+            font-weight: 800;
+            padding: 2px 5px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        /* ---------------- VISTA 3: PERFIL ---------------- */
+        #profileScreen {
+            background-color: #FFFFFF;
+            color: #121317;
+            padding: 20px;
+        }
+
+        .profile-nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .profile-title-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #121317;
+        }
+
+        .profile-avatar-block {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-img-wrap {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 12px auto;
+            border: 2px solid #00B2FF;
+            background: #EBF7FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .profile-img-wrap svg {
+            width: 48px;
+            height: 48px;
+            fill: #00B2FF;
+        }
+
+        .profile-display-name {
+            font-size: 20px;
+            font-weight: 800;
+            color: #121317;
+        }
+
+        .profile-display-email {
+            font-size: 14px;
+            color: #666666;
+            margin-top: 2px;
+        }
+
+        .profile-menu {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-row-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #F0F0F5;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .square-icon-box {
+            width: 38px;
+            height: 38px;
+            background-color: #00B2FF;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+
+        .square-icon-box svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .profile-row-text {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 600;
+            color: #222222;
+        }
+
+        .arrow-icon {
+            width: 16px;
+            height: 16px;
+            stroke: #CCCCCC;
+            fill: none;
+            stroke-width: 2.5;
+        }
+
+        .app-version-footer {
+            text-align: center;
+            font-size: 12px;
+            color: #999999;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        /* BARRA INFERIOR GLOBAL */
+        .bottom-tab-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background-color: #1A1C23;
+            border-top: 1px solid var(--ubii-border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #727685;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 33%;
+        }
+
+        .tab-btn.active {
+            color: var(--ubii-blue);
+        }
+
+        .tab-btn svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* MODALES OVERLAY */
+        .modal-mask {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background-color: var(--ubii-card);
+            border: 1px solid var(--ubii-border);
+            border-radius: 20px;
+            padding: 24px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .modal-card h3 {
+            font-size: 18px;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .m-input {
+            width: 100%;
+            padding: 12px;
+            background: var(--ubii-bg);
+            border: 1px solid var(--ubii-border);
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            margin-bottom: 12px;
+            outline: none;
+            text-align: left;
+        }
+
+        .m-btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .m-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .m-btn-ok { background: var(--ubii-blue); color: #000; }
+        .m-btn-cancel { background: var(--ubii-border); color: white; }
+
+        /* MODAL HUELLA BIOMÉTRICA */
+        .fingerprint-icon-lg {
+            width: 70px;
+            height: 70px;
+            margin: 10px auto 20px auto;
+            fill: var(--ubii-blue);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
         }
     </style>
 </head>
-<body class="bg-dark-main min-h-screen flex justify-center items-center">
+<body>
 
-    <!-- CONTENEDOR MÓVIL / RESPONSIVO -->
-    <div id="app-container" class="w-full max-w-md h-screen md:h-[844px] md:rounded-[40px] md:border-[8px] md:border-gray-800 bg-dark-main flex flex-col relative overflow-hidden shadow-2xl">
+    <div class="mobile-shell">
 
-        <!-- ================= 1. VISTA: LOGIN BIOMÉTRICO ================= -->
-        <div id="view-login" class="flex-1 flex flex-col justify-between p-6 bg-gradient-to-b from-[#00A3FF] to-[#7000FF]">
-            <div class="pt-12 text-center">
-                <h1 class="text-3xl font-bold tracking-tight text-white flex items-center justify-center gap-2">
-                    <span class="bg-white text-[#00A3FF] px-2 py-1 rounded-lg text-xl font-extrabold">Ü</span> Ubi app
-                </h1>
-            </div>
+        <!-- VISTA 1: LOGIN UBII (Siempre se muestra al abrir/recargar) -->
+        <div id="loginScreen" class="screen active">
+            <div></div>
 
-            <div class="space-y-4 my-auto">
-                <div>
-                    <label class="text-xs text-blue-100 font-medium">Correo</label>
-                    <input type="email" id="login-email" value="yeiccer@ubiapp.com" class="w-full bg-transparent border-b border-white/40 py-2 text-white placeholder-white/50 focus:outline-none focus:border-white text-sm">
-                </div>
-                <div>
-                    <label class="text-xs text-blue-100 font-medium">Contraseña</label>
-                    <input type="password" id="login-pass" value="********" class="w-full bg-transparent border-b border-white/40 py-2 text-white placeholder-white/50 focus:outline-none focus:border-white text-sm">
-                    <div class="text-right mt-1">
-                        <a href="#" class="text-xs text-blue-200 hover:underline">¿Olvidaste tu contraseña?</a>
+            <div class="login-logo-box">
+                <div class="ubii-logo-text">
+                    <div class="ubii-dots">
+                        <div class="ubii-dot"></div>
+                        <div class="ubii-dot"></div>
                     </div>
-                </div>
-
-                <div class="pt-4 flex gap-3 items-center">
-                    <button onclick="loginUser()" class="flex-1 bg-white text-gray-900 font-semibold py-3.5 rounded-xl shadow-lg hover:bg-gray-100 transition">Entrar</button>
-                    <button onclick="loginUser()" class="bg-white p-3 rounded-xl shadow-lg hover:bg-gray-100 transition text-[#00A3FF] flex items-center justify-center">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0115.171 17m3.839-1.132c.645-2.266.99-4.659.9-7.106A9 9 0 003 9c0 1.956.452 3.79 1.253 5.385"></path></svg>
-                    </button>
+                    Ubiiapp
                 </div>
             </div>
 
-            <div class="text-center pb-4">
-                <a href="#" class="text-xs text-white/80 hover:underline">¿No tienes cuenta? Regístrate</a>
-            </div>
-        </div>
-
-        <!-- ================= 2. VISTA: DASHBOARD ================= -->
-        <div id="view-dashboard" class="flex-1 flex flex-col hidden overflow-y-auto pb-20">
-            <div class="px-6 pt-8 pb-4 flex justify-between items-center bg-dark-card border-b border-dark">
-                <div>
-                    <p class="text-xs text-gray-400">Buenos días,</p>
-                    <h2 class="text-lg font-bold text-white">Yeiccer</h2>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button class="text-gray-400 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg></button>
-                    <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white font-bold">Y</div>
-                </div>
-            </div>
-
-            <div class="p-6 space-y-6">
-                <!-- Saldo -->
-                <div class="bg-dark-card p-5 rounded-2xl border border-dark shadow-lg">
-                    <p class="text-xs text-gray-400 font-medium">Bolívares</p>
-                    <h3 class="text-3xl font-extrabold text-white mt-1">40.305,28 <span class="text-sm font-normal text-gray-400">Bs</span></h3>
+            <div class="login-form-area">
+                <div class="field-group">
+                    <label class="field-label">Correo</label>
+                    <input type="email" id="txtCorreoLogin" class="ubii-input" value="leudys@ubii.com">
                 </div>
 
-                <!-- Crédito -->
-                <div class="bg-dark-card p-5 rounded-2xl border border-dark shadow-lg">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs text-gray-400 font-medium">Crédito disponible:</span>
-                        <span class="text-xs text-gray-400">Mi deuda: $70,00</span>
-                    </div>
-                    <p class="text-2xl font-bold text-white mb-3">$0,00</p>
-                    <div class="w-full bg-gray-700 h-1.5 rounded-full overflow-hidden mb-4">
-                        <div class="bg-blue-500 h-full w-0"></div>
-                    </div>
-                    <button class="w-full bg-gradient-to-r from-[#00A3FF] to-[#0051FF] text-white font-semibold py-2.5 rounded-xl text-sm flex items-center justify-center gap-2 shadow-md">
-                        Mis créditos <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                <div class="field-group">
+                    <label class="field-label">Contraseña</label>
+                    <input type="password" id="txtPassLogin" class="ubii-input" value="••••••••">
+                    <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <div class="login-action-row">
+                    <button class="btn-entrar-main" onclick="ejecutarLogin()">Entrar</button>
+                    <button class="btn-biometric" onclick="solicitarHuellaEntrada()" title="Ingresar con Huella">
+                        <svg viewBox="0 0 24 24"><path d="M12.001 2C6.48 2 2 6.48 2 12c0 2.85 1.2 5.41 3.11 7.24l1.42-1.42C5.07 16.33 4 14.3 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8c0 2.3-.07 4.33-1.53 5.82l1.42 1.42C20.8 17.41 22 14.85 22 12c0-5.52-4.48-10-10-10zm0 4c-3.31 0-6 2.69-6 6 0 1.74.75 3.31 1.95 4.41l1.42-1.42C8.54 14.28 8 13.2 8 12c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.2-.54 2.28-1.37 2.99l1.42 1.42C17.25 15.31 18 13.74 18 12c0-3.31-2.69-6-6-6zm0 4c-1.1 0-2 .9-2 2 0 .55.22 1.05.59 1.41l1.41-1.41V12h2v2c0 1.1-.9 2-2 2s-2-.9-2-2h-2c0 2.21 1.79 4 4 4s4-1.79 4-4c0-2.21-1.79-4-4-4z"/></svg>
                     </button>
                 </div>
 
-                <!-- Pagos Rápidos -->
-                <div>
-                    <h4 class="text-sm font-bold text-gray-300 mb-3">Pagos rápidos</h4>
-                    <div class="grid grid-cols-4 gap-3">
-                        <div onclick="openPaymentModal('Pago Móvil')" class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 transition">
-                            <div class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center mb-2 text-white font-bold text-xs">P.M</div>
-                            <span class="text-[11px] text-gray-300 font-medium">Pago Móvil</span>
-                        </div>
-                        <div onclick="openPaymentModal('Recarga con tarjeta')" class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 transition">
-                            <div class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center mb-2 text-white font-bold text-xs">VISA</div>
-                            <span class="text-[11px] text-gray-300 font-medium">Recarga tarjeta</span>
-                        </div>
-                        <div onclick="openPaymentModal('Pago Ubi')" class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 transition">
-                            <div class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center mb-2 text-white font-bold text-xs">Ü</div>
-                            <span class="text-[11px] text-gray-300 font-medium">Pago Ubi</span>
-                        </div>
-                        <div onclick="openPaymentModal('Cuenta Bancaria')" class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 transition">
-                            <div class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center mb-2 text-white font-bold text-xs">BANK</div>
-                            <span class="text-[11px] text-gray-300 font-medium">Recarga Bancaria</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pagos de Servicios -->
-                <div>
-                    <h4 class="text-sm font-bold text-gray-300 mb-3">Pagos de servicios</h4>
-                    <div class="grid grid-cols-4 gap-3">
-                        <div class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer opacity-80"><span class="text-xs font-bold">DIGITEL</span></div>
-                        <div class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer opacity-80"><span class="text-xs font-bold">MOVISTAR</span></div>
-                        <div class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer opacity-80"><span class="text-xs font-bold">MOVILNET</span></div>
-                        <div class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer opacity-80 relative">
-                            <span class="absolute -top-2 right-0 bg-red-600 text-[9px] px-1.5 py-0.5 rounded-full font-bold">NUEVO</span>
-                            <span class="text-xs font-bold">THUNDER</span>
-                        </div>
-                    </div>
-                </div>
+                <a href="#" class="support-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    ¿Tienes algún problema con tu cuenta? Contáctanos
+                </a>
             </div>
+
+            <a href="#" class="register-footer-link" onclick="solicitarRegistro()">¿No tienes cuenta? Regístrate</a>
         </div>
 
-        <!-- ================= 3. MODAL DE PAGO EXTENDIDO (CÉDULA, CELULAR Y BANCOS VENEZUELA) ================= -->
-        <div id="payment-modal" class="absolute inset-0 bg-dark-main z-50 flex flex-col hidden p-6 overflow-y-auto">
-            <div class="flex justify-between items-center mb-4">
-                <button onclick="closePaymentModal()" class="text-white text-lg font-bold">✕ Cancelar</button>
-                <h3 id="modal-title" class="text-base font-bold text-white">Procesar Operación</h3>
-                <div class="w-6"></div>
-            </div>
-
-            <div class="space-y-3 my-auto">
-                <div>
-                    <label class="text-xs text-gray-400 font-medium">Banco Destino</label>
-                    <select id="pay-bank" class="w-full bg-dark-card border border-dark rounded-xl p-3 text-white text-sm focus:outline-none focus:border-blue-500 mt-1">
-                        <option value="BBVA Provincial">0108 - BBVA Provincial</option>
-                        <option value="Banesco">0134 - Banesco</option>
-                        <option value="Banco de Venezuela">0102 - Banco de Venezuela</option>
-                        <option value="Mercantil">0105 - Banco Mercantil</option>
-                        <option value="BNC">0191 - Banco Nacional de Crédito (BNC)</option>
-                        <option value="Bancamiga">0172 - Bancamiga</option>
-                        <option value="Banco Caroní">0128 - Banco Caroní</option>
-                        <option value="BOD / BFC">0151 - Fondo Común (BFC)</option>
-                        <option value="Banplus">0174 - Banplus</option>
-                        <option value="Banco Tesoro">0163 - Tesoro</option>
-                    </select>
+        <!-- VISTA 2: DASHBOARD -->
+        <div id="dashboardScreen" class="screen">
+            <div class="top-header">
+                <div class="greeting-text">
+                    <h3>Buenos días,</h3>
+                    <h2 id="lblNombreMain">Leudys</h2>
                 </div>
-                <div>
-                    <label class="text-xs text-gray-400 font-medium">Cédula de Identidad (Cliente)</label>
-                    <input type="text" id="pay-dni" value="V-28123456" class="w-full bg-dark-card border border-dark rounded-xl p-3 text-white font-medium focus:outline-none focus:border-blue-500 mt-1" placeholder="Ej: V-28123456">
-                </div>
-                <div>
-                    <label class="text-xs text-gray-400 font-medium">Número de Celular</label>
-                    <input type="text" id="pay-phone" value="04121234567" class="w-full bg-dark-card border border-dark rounded-xl p-3 text-white font-medium focus:outline-none focus:border-blue-500 mt-1" placeholder="Ej: 04121234567">
-                </div>
-                <div>
-                    <label class="text-xs text-gray-400 font-medium">Monto a Procesar (Bs)</label>
-                    <input type="text" id="pay-amount" value="150,00" class="w-full bg-dark-card border border-dark rounded-xl p-3 text-white font-bold text-lg focus:outline-none focus:border-blue-500 mt-1">
-                </div>
-                <div class="pt-2">
-                    <button onclick="processSecurePayment()" class="w-full bg-[#00A3FF] hover:bg-blue-600 text-white font-bold py-3.5 rounded-xl shadow-lg transition">Confirmar y Generar Pago</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= 4. PANTALLA DE ÉXITO ANIMADA ================= -->
-        <div id="view-success" class="absolute inset-0 bg-[#00A3FF] z-50 flex flex-col items-center justify-center text-white hidden p-6">
-            <div class="animate-success flex flex-col items-center">
-                <div class="w-24 h-24 rounded-full border-4 border-white flex items-center justify-center mb-6 shadow-xl">
-                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-                </div>
-                <h2 class="text-2xl font-bold tracking-tight text-center">¡Transacción realizada exitosamente!</h2>
-            </div>
-        </div>
-
-        <!-- ================= 5. RECIBO Y DESPACHO SMS NATIVO ================= -->
-        <div id="view-receipt" class="absolute inset-0 bg-[#00A3FF] z-50 flex flex-col p-6 hidden overflow-y-auto">
-            <div class="flex justify-between items-center mb-4">
-                <button onclick="returnToDashboard()" class="text-white font-bold text-lg">← Volver</button>
-                <span class="text-xs font-bold uppercase tracking-wider text-white/80">Comprobante Seguro</span>
-                <div class="w-6"></div>
-            </div>
-
-            <!-- Recibo Formal Bancario -->
-            <div class="bg-dark-card/95 backdrop-blur-md rounded-2xl p-5 border border-white/10 space-y-3 text-sm shadow-2xl my-auto">
-                <div class="flex justify-between border-b border-white/10 pb-2">
-                    <span class="text-gray-400 text-xs">Banco Destino</span>
-                    <span id="rec-bank" class="font-bold text-white">BBVA Provincial</span>
-                </div>
-                <div class="flex justify-between border-b border-white/10 pb-2">
-                    <span class="text-gray-400 text-xs">Cédula Cliente</span>
-                    <span id="rec-dni" class="font-medium text-white">V-28123456</span>
-                </div>
-                <div class="flex justify-between border-b border-white/10 pb-2">
-                    <span class="text-gray-400 text-xs">Monto Procesado</span>
-                    <span id="rec-amount" class="font-bold text-white">Bs. 150,00</span>
-                </div>
-                <div class="flex justify-between border-b border-white/10 pb-2">
-                    <span class="text-gray-400 text-xs">Celular</span>
-                    <span id="rec-phone" class="font-medium text-white">04121234567</span>
-                </div>
-                <div class="flex justify-between border-b border-white/10 pb-2">
-                    <span class="text-gray-400 text-xs">Referencia</span>
-                    <span id="rec-ref" class="font-mono font-bold text-white">#UBII-280806</span>
-                </div>
-                <div class="flex justify-between pb-1">
-                    <span class="text-gray-400 text-xs">Fecha / Hora</span>
-                    <span id="rec-date" class="text-xs text-white">25/10/2026, 6:45:49 p. m.</span>
-                </div>
-            </div>
-
-            <!-- Consola de Ciberseguridad Oculta (Trabaja en segundo plano) -->
-            <div id="hidden-console" class="hidden">
-                <span id="rec-hash">SHA256: 7c4698ec208ec6cb5ab32c2f4b43</span>
-            </div>
-
-            <!-- Botón de Envío por SMS Nativo -->
-            <button onclick="dispatchSmsNative()" class="w-full bg-[#00C853] hover:bg-green-600 text-white font-bold py-3.5 px-4 rounded-xl shadow-xl flex items-center justify-center gap-2 transition text-sm mt-4">
-                <span>Enviar Comprobante por SMS Nativo</span>
-            </button>
-        </div>
-
-        <!-- ================= BARRA DE NAVEGACIÓN INFERIOR ================= -->
-        <div id="bottom-nav" class="bg-dark-card border-t border-dark h-16 flex justify-around items-center px-4 mt-auto hidden">
-            <button class="flex flex-col items-center text-[#00A3FF]">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                <span class="text-[10px] mt-1 font-medium">Mi Cuenta</span>
-            </button>
-            <button class="flex flex-col items-center text-gray-400 hover:text-white">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                <span class="text-[10px] mt-1 font-medium">Tarjetas</span>
-            </button>
-            <button class="flex flex-col items-center text-gray-400 hover:text-white">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                <span class="text-[10px] mt-1 font-medium">Ayuda</span>
-            </button>
-        </div>
-
-    </div>
-
-    <!-- SCRIPT LÓGICO Y DE SEGURIDAD -->
-    <script>
-        let currentTransactionData = {};
-
-        function loginUser() {
-            document.getElementById('view-login').classList.add('hidden');
-            document.getElementById('view-dashboard').classList.remove('hidden');
-            document.getElementById('bottom-nav').classList.remove('hidden');
-        }
-
-        function openPaymentModal(serviceName) {
-            document.getElementById('modal-title').innerText = "Procesar: " + serviceName;
-            document.getElementById('payment-modal').classList.remove('hidden');
-            currentTransactionData.service = serviceName;
-        }
-
-        function closePaymentModal() {
-            document.getElementById('payment-modal').classList.add('hidden');
-        }
-
-        function processSecurePayment() {
-            const bank = document.getElementById('pay-bank').value;
-            const dni = document.getElementById('pay-dni').value;
-            const amount = document.getElementById('pay-amount').value;
-            const phone = document.getElementById('pay-phone').value;
-            const reference = "#UBII-" + Math.floor(100000 + Math.random() * 900000);
-            const dateStr = new Date().toLocaleString();
-
-            currentTransactionData.bank = bank;
-            currentTransactionData.dni = dni;
-            currentTransactionData.amount = amount;
-            currentTransactionData.phone = phone;
-            currentTransactionData.reference = reference;
-            currentTransactionData.date = dateStr;
-
-            // Ciberseguridad: Cálculo de Hash SHA-256 interno en segundo plano
-            const rawString = reference + amount + phone + dni;
-            const sha256Hash = CryptoJS.SHA256(rawString).toString();
-
-            document.getElementById('rec-bank').innerText = bank;
-            document.getElementById('rec-dni').innerText = dni;
-            document.getElementById('rec-amount').innerText = "Bs. " + amount;
-            document.getElementById('rec-phone').innerText = phone;
-            document.getElementById('rec-ref').innerText = reference;
-            document.getElementById('rec-date').innerText = dateStr;
-            document.getElementById('rec-hash').innerText = "SHA256: " + sha256Hash;
-
-            closePaymentModal();
-
-            const successView = document.getElementById('view-success');
-            const receiptView = document.getElementById('view-receipt');
-
-            successView.classList.remove('hidden');
-
-            setTimeout(() => {
-                successView.classList.add('hidden');
-                receiptView.classList.remove('hidden');
-            }, 1800);
-        }
-
-        function returnToDashboard() {
-            document.getElementById('view-receipt').classList.add('hidden');
-        }
-
-        function dispatchSmsNative() {
-            const phone = currentTransactionData.phone.replace(/[^0-9]/g, '');
-            // Formato de Mensaje de Texto (SMS) Formal y Profesional
-            const mensaje = `[UBI APP] COMPROBANTE\n` +
-                            `Banco: ${currentTransactionData.bank}\n` +
-                            `Cedula: ${currentTransactionData.dni}\n` +
-                            `Monto: Bs. ${currentTransactionData.amount}\n` +
-                            `Ref: ${currentTransactionData.reference}\n` +
-                            `Fecha: ${currentTransactionData.date}`;
-
-            // Protocolo Nativo SMS del Celular
-            const urlSms = `sms:${phone}?body=${encodeURIComponent(mensaje)}`;
-            window.open(urlSms, '_blank');
-        }
-    </script>
-</body>
-</html>
+                <div class="header-actions">
+                    <button class="qr-icon-btn">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#A0A5B5" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+                    </button>
+                    <div class="avata

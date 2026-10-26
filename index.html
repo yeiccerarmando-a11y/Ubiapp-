@@ -718,4 +718,448 @@
                     <button class="qr-icon-btn">
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#A0A5B5" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
                     </button>
-                    <div class="avata
+                    <div class="avatar-circle" onclick="navegarAPerfil()">
+                        <img id="imgAvatarDashboard" src="" alt="Avatar" style="display:none;">
+                        <svg id="svgAvatarDashboard" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-box">
+                <div class="card-row-head">
+                    <span>Bolívares</span>
+                    <span class="currency-tag">Bs</span>
+                </div>
+                <div class="balance-amount" id="lblSaldoMain">40.305,28</div>
+                <div class="nivel-pill" onclick="abrirModalNivel()" id="lblNivelMain">Nivel 2 • Verificado</div>
+            </div>
+
+            <div class="card-box">
+                <div class="card-row-head">
+                    <span class="credit-title">Crédito disponible:</span>
+                    <span class="credit-debt">Mi deuda: $70,00</span>
+                </div>
+                <div class="credit-amount">$0,00</div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"></div>
+                </div>
+                <button class="btn-creditos" onclick="alert('Módulo de Crédito Ubii')">
+                    Mis créditos
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+
+            <div class="section-label">Pagos rápidos</div>
+            <div class="grid-4">
+                <div class="service-card" onclick="abrirModalPagoMovil()">
+                    <div class="service-card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+                    </div>
+                    <div class="service-card-title">Pago Móvil</div>
+                </div>
+
+                <div class="service-card" onclick="alert('Recarga con Tarjeta Visa/Mastercard')">
+                    <div class="service-card-icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+                    </div>
+                    <div class="service-card-title">Recarga con tarjeta</div>
+                </div>
+
+                <div class="service-card" onclick="alert('Pago Ubii Directo')">
+                    <div class="service-card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V5l-9-3z"/></svg>
+                    </div>
+                    <div class="service-card-title">Pago Ubii</div>
+                </div>
+
+                <div class="service-card" onclick="alert('Recarga Banco Venezolano de Crédito')">
+                    <div class="service-card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zM12 1L2 6v2h20V6z"/></svg>
+                    </div>
+                    <div class="service-card-title">Recarga con cuenta Bancaria</div>
+                </div>
+            </div>
+
+            <div class="section-label">Pagos de servicios</div>
+            <div class="grid-4">
+                <div class="service-card" onclick="alert('Recarga Digitel')">
+                    <div class="service-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#FF7700"><path d="M2 22h20V2z"/></svg></div>
+                    <div class="service-card-title">DIGITEL</div>
+                </div>
+
+                <div class="service-card" onclick="alert('Recarga Movistar')">
+                    <div class="service-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#00A3FF"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg></div>
+                    <div class="service-card-title">Movistar</div>
+                </div>
+
+                <div class="service-card" onclick="alert('Recarga Movilnet')">
+                    <div class="service-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#FF3300"><path d="M12 3L2 12h3v8h14v-8h3L12 3z"/></svg></div>
+                    <div class="service-card-title">Movilnet</div>
+                </div>
+
+                <div class="service-card" onclick="alert('Thunder Net Servicio')">
+                    <div class="tag-nuevo">¡NUEVO!</div>
+                    <div class="service-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#FFCC00"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg></div>
+                    <div class="service-card-title">Thunder Net</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA 3: PERFIL -->
+        <div id="profileScreen" class="screen">
+            <div class="profile-nav-bar">
+                <button class="back-btn" onclick="navegarADashboard()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#121317" stroke-width="2.5"><path d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <div class="profile-title-text">Perfil</div>
+                <div style="width: 24px;"></div>
+            </div>
+
+            <div class="profile-avatar-block">
+                <div class="profile-img-wrap">
+                    <img id="imgAvatarProfile" src="" alt="Avatar" style="display:none;">
+                    <svg id="svgAvatarProfile" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+                <div class="profile-display-name" id="lblPerfilNombre">Alejandra Arriaga</div>
+                <div class="profile-display-email" id="lblPerfilCorreo">aarriaga12@gmail.com</div>
+            </div>
+
+            <div class="profile-menu">
+                <button class="profile-row-item" onclick="abrirModalEditarPerfil()">
+                    <div class="square-icon-box">
+                        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    </div>
+                    <span class="profile-row-text">Mi información</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <button class="profile-row-item" onclick="alert('Ajustes de Contraseña')">
+                    <div class="square-icon-box">
+                        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                    </div>
+                    <span class="profile-row-text">Cambiar mi contraseña</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <button class="profile-row-item" onclick="alert('Configurar PIN')">
+                    <div class="square-icon-box">
+                        <svg viewBox="0 0 24 24"><path d="M126.5 10C11.8 10 0 21.8 0 36.5S11.8 63 26.5 63h187L240 90l26.5-27h27c14.7 0 26.5-11.8 26.5-26.5S308.2 10 293.5 10h-167z"/></svg>
+                    </div>
+                    <span class="profile-row-text">Cambiar PIN de sesión</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <button class="profile-row-item" onclick="alert('Recuperación de PIN')">
+                    <div class="square-icon-box">
+                        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                    </div>
+                    <span class="profile-row-text">Olvidé mi PIN de sesión</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <button class="profile-row-item" onclick="alert('Preguntas de Seguridad')">
+                    <div class="square-icon-box">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+                    </div>
+                    <span class="profile-row-text">Cambiar mis preguntas de seguridad</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <button class="profile-row-item" onclick="alert('Tarifas y Límites según tu Nivel')">
+                    <div class="square-icon-box">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    </div>
+                    <span class="profile-row-text">Tarifas</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <button class="profile-row-item" onclick="alert('Términos y Condiciones Legales')">
+                    <div class="square-icon-box">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                    </div>
+                    <span class="profile-row-text">Términos y condiciones</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <button class="profile-row-item" onclick="cerrarSesionApp()">
+                    <div class="square-icon-box">
+                        <svg viewBox="0 0 24 24"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                    </div>
+                    <span class="profile-row-text" style="color: #FF3B30;">Cerrar sesión</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+
+            <div class="app-version-footer">V1.0.37.1.4</div>
+        </div>
+
+        <!-- BARRA INFERIOR GLOBAL -->
+        <div id="globalBottomNav" class="bottom-tab-bar" style="display: none;">
+            <button class="tab-btn active" id="tabCuenta" onclick="navegarADashboard()">
+                <svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                Mi Cuenta
+            </button>
+            <button class="tab-btn" onclick="alert('Sección de Tarjetas Ubii')">
+                <svg viewBox="0 0 24 24"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                Tarjetas
+            </button>
+            <button class="tab-btn" id="tabPerfil" onclick="navegarAPerfil()">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                Ayuda / Perfil
+            </button>
+        </div>
+
+    </div>
+
+    <!-- MODAL DE LECTURA DE HUELLA -->
+    <div id="modalHuella" class="modal-mask">
+        <div class="modal-card">
+            <h3>Autenticación Biométrica</h3>
+            <p style="font-size:13px; color:#A0A5B5; margin-bottom:10px;">Coloca tu huella en el sensor de tu dispositivo para ingresar</p>
+            <svg class="fingerprint-icon-lg" viewBox="0 0 24 24"><path d="M12.001 2C6.48 2 2 6.48 2 12c0 2.85 1.2 5.41 3.11 7.24l1.42-1.42C5.07 16.33 4 14.3 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8c0 2.3-.07 4.33-1.53 5.82l1.42 1.42C20.8 17.41 22 14.85 22 12c0-5.52-4.48-10-10-10zm0 4c-3.31 0-6 2.69-6 6 0 1.74.75 3.31 1.95 4.41l1.42-1.42C8.54 14.28 8 13.2 8 12c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.2-.54 2.28-1.37 2.99l1.42 1.42C17.25 15.31 18 13.74 18 12c0-3.31-2.69-6-6-6zm0 4c-1.1 0-2 .9-2 2 0 .55.22 1.05.59 1.41l1.41-1.41V12h2v2c0 1.1-.9 2-2 2s-2-.9-2-2h-2c0 2.21 1.79 4 4 4s4-1.79 4-4c0-2.21-1.79-4-4-4z"/></svg>
+            <div class="m-btn-row">
+                <button class="m-btn m-btn-ok" onclick="confirmarHuellaExito()">Confirmar Huella</button>
+                <button class="m-btn m-btn-cancel" onclick="cerrarModalHuella()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE PAGO MÓVIL Y SMS -->
+    <div id="modalPago" class="modal-mask">
+        <div class="modal-card">
+            <h3>Pago Móvil / SMS</h3>
+            <input type="number" id="inMonto" class="m-input" placeholder="Monto en Bs. (ej. 1500)">
+            <input type="text" id="inDni" class="m-input" placeholder="Cédula / DNI">
+            <input type="tel" id="inPhone" class="m-input" placeholder="Teléfono destino">
+            <select id="inBanco" class="m-input">
+                <option value="Banesco">0134 - Banesco</option>
+                <option value="Banco de Venezuela">0102 - Banco de Venezuela</option>
+                <option value="BBVA Provincial">0108 - BBVA Provincial</option>
+                <option value="Mercantil">0105 - Mercantil</option>
+                <option value="BNC">0191 - Banco Nacional de Crédito (BNC)</option>
+                <option value="Bancamiga">0172 - Bancamiga</option>
+                <option value="Banplus">0174 - Banplus</option>
+                <option value="BFC">0151 - Fondo Común / BFC</option>
+                <option value="Banco del Tesoro">0163 - Banco del Tesoro</option>
+                <option value="Banco Exterior">0115 - Banco Exterior</option>
+                <option value="Bancaribe">0114 - Bancaribe</option>
+                <option value="Banco Plaza">0138 - Banco Plaza</option>
+                <option value="BOD">0116 - BOD</option>
+                <option value="100% Banco">0156 - 100% Banco</option>
+                <option value="Activo">0171 - Banco Activo</option>
+            </select>
+            <div class="m-btn-row">
+                <button class="m-btn m-btn-ok" onclick="enviarPagoSMS()">Enviar SMS</button>
+                <button class="m-btn m-btn-cancel" onclick="cerrarModalPago()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CAMBIAR NIVEL -->
+    <div id="modalNivel" class="modal-mask">
+        <div class="modal-card">
+            <h3>Subir Nivel de Verificación</h3>
+            <p style="font-size:13px; color:#A0A5B5; margin-bottom:12px;">Selecciona tu nivel para ampliar límites mensuales:</p>
+            <select id="selNivel" class="m-input">
+                <option value="Nivel 1 • Básico">Nivel 1 • Básico (Hasta Bs. 10.000)</option>
+                <option value="Nivel 2 • Verificado" selected>Nivel 2 • Verificado (Hasta Bs. 100.000)</option>
+                <option value="Nivel 3 • Avanzado">Nivel 3 • Avanzado (Sin límites)</option>
+            </select>
+            <div class="m-btn-row">
+                <button class="m-btn m-btn-ok" onclick="guardarNivel()">Actualizar Nivel</button>
+                <button class="m-btn m-btn-cancel" onclick="cerrarModalNivel()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL EDITAR MI INFORMACIÓN Y FOTO PERSONAL -->
+    <div id="modalEditPerfil" class="modal-mask">
+        <div class="modal-card">
+            <h3>Editar Mi Información</h3>
+            <input type="text" id="inNombrePerfil" class="m-input" placeholder="Nombre completo">
+            <input type="email" id="inCorreoPerfil" class="m-input" placeholder="Correo electrónico">
+            <input type="text" id="inFotoPerfil" class="m-input" placeholder="URL de tu foto personalizada (opcional)">
+            <input type="number" id="inSaldoPerfil" class="m-input" placeholder="Ajustar saldo en Bs.">
+            <div class="m-btn-row">
+                <button class="m-btn m-btn-ok" onclick="guardarPerfilEdit()">Guardar</button>
+                <button class="m-btn m-btn-cancel" onclick="cerrarModalEditarPerfil()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Siempre exigir login / huella al abrir o recargar
+        window.onload = function() {
+            const nom = localStorage.getItem('ubii_nom') || 'Alejandra Arriaga';
+            const mail = localStorage.getItem('ubii_mail') || 'aarriaga12@gmail.com';
+            const niv = localStorage.getItem('ubii_niv') || 'Nivel 2 • Verificado';
+            const bal = localStorage.getItem('ubii_bal') || '40.305,28';
+            const foto = localStorage.getItem('ubii_foto') || '';
+
+            actualizarUINombres(nom, mail, niv, bal, foto);
+
+            // Siempre iniciar en la pantalla de Login requiriendo autenticación
+            document.getElementById('loginScreen').classList.add('active');
+            document.getElementById('dashboardScreen').classList.remove('active');
+            document.getElementById('profileScreen').classList.remove('active');
+            document.getElementById('globalBottomNav').style.display = 'none';
+        };
+
+        function actualizarUINombres(nom, mail, niv, bal, foto) {
+            document.getElementById('lblNombreMain').innerText = nom;
+            document.getElementById('lblPerfilNombre').innerText = nom;
+            document.getElementById('lblPerfilCorreo').innerText = mail;
+            document.getElementById('txtCorreoLogin').value = mail;
+            document.getElementById('lblNivelMain').innerText = niv;
+            document.getElementById('lblSaldoMain').innerText = bal;
+
+            const imgDash = document.getElementById('imgAvatarDashboard');
+            const svgDash = document.getElementById('svgAvatarDashboard');
+            const imgProf = document.getElementById('imgAvatarProfile');
+            const svgProf = document.getElementById('svgAvatarProfile');
+
+            if (foto && foto.trim() !== '') {
+                imgDash.src = foto;
+                imgDash.style.display = 'block';
+                svgDash.style.display = 'none';
+
+                imgProf.src = foto;
+                imgProf.style.display = 'block';
+                svgProf.style.display = 'none';
+            } else {
+                imgDash.style.display = 'none';
+                svgDash.style.display = 'block';
+
+                imgProf.style.display = 'none';
+                svgProf.style.display = 'block';
+            }
+        }
+
+        function ejecutarLogin() {
+            const mail = document.getElementById('txtCorreoLogin').value;
+            localStorage.setItem('ubii_mail', mail);
+            navegarADashboardDirecto();
+        }
+
+        function solicitarHuellaEntrada() {
+            document.getElementById('modalHuella').style.display = 'flex';
+        }
+
+        function cerrarModalHuella() {
+            document.getElementById('modalHuella').style.display = 'none';
+        }
+
+        function confirmarHuellaExito() {
+            cerrarModalHuella();
+            navegarADashboardDirecto();
+        }
+
+        function solicitarRegistro() {
+            const regNom = prompt('Ingresa tu nombre completo para registrar tu cuenta en Ubii:');
+            if (regNom) {
+                localStorage.setItem('ubii_nom', regNom);
+                actualizarUINombres(regNom, 'usuario@ubii.com', 'Nivel 1 • Básico', '0,00', '');
+                navegarADashboardDirecto();
+            }
+        }
+
+        function navegarADashboardDirecto() {
+            document.getElementById('loginScreen').classList.remove('active');
+            document.getElementById('profileScreen').classList.remove('active');
+            document.getElementById('dashboardScreen').classList.add('active');
+            document.getElementById('globalBottomNav').style.display = 'flex';
+            
+            document.getElementById('tabCuenta').classList.add('active');
+            document.getElementById('tabPerfil').classList.remove('active');
+        }
+
+        function navegarADashboard() {
+            document.getElementById('profileScreen').classList.remove('active');
+            document.getElementById('dashboardScreen').classList.add('active');
+            
+            document.getElementById('tabCuenta').classList.add('active');
+            document.getElementById('tabPerfil').classList.remove('active');
+        }
+
+        function navegarAPerfil() {
+            document.getElementById('dashboardScreen').classList.remove('active');
+            document.getElementById('profileScreen').classList.add('active');
+            
+            document.getElementById('tabPerfil').classList.add('active');
+            document.getElementById('tabCuenta').classList.remove('active');
+        }
+
+        function cerrarSesionApp() {
+            document.getElementById('dashboardScreen').classList.remove('active');
+            document.getElementById('profileScreen').classList.remove('active');
+            document.getElementById('loginScreen').classList.add('active');
+            document.getElementById('globalBottomNav').style.display = 'none';
+        }
+
+        function abrirModalPagoMovil() { document.getElementById('modalPago').style.display = 'flex'; }
+        function cerrarModalPago() { document.getElementById('modalPago').style.display = 'none'; }
+
+        function abrirModalNivel() { document.getElementById('modalNivel').style.display = 'flex'; }
+        function cerrarModalNivel() { document.getElementById('modalNivel').style.display = 'none'; }
+
+        function guardarNivel() {
+            const nuevoNiv = document.getElementById('selNivel').value;
+            localStorage.setItem('ubii_niv', nuevoNiv);
+            document.getElementById('lblNivelMain').innerText = nuevoNiv;
+            cerrarModalNivel();
+        }
+
+        function abrirModalEditarPerfil() {
+            document.getElementById('inNombrePerfil').value = document.getElementById('lblPerfilNombre').innerText;
+            document.getElementById('inCorreoPerfil').value = document.getElementById('lblPerfilCorreo').innerText;
+            document.getElementById('inFotoPerfil').value = localStorage.getItem('ubii_foto') || '';
+            document.getElementById('modalEditPerfil').style.display = 'flex';
+        }
+        function cerrarModalEditarPerfil() { document.getElementById('modalEditPerfil').style.display = 'none'; }
+
+        function guardarPerfilEdit() {
+            const nName = document.getElementById('inNombrePerfil').value;
+            const nMail = document.getElementById('inCorreoPerfil').value;
+            const nFoto = document.getElementById('inFotoPerfil').value;
+            const nBal = document.getElementById('inSaldoPerfil').value;
+
+            if (nName) localStorage.setItem('ubii_nom', nName);
+            if (nMail) localStorage.setItem('ubii_mail', nMail);
+            localStorage.setItem('ubii_foto', nFoto ? nFoto.trim() : '');
+            if (nBal) {
+                const balFormatted = parseFloat(nBal).toLocaleString('es-VE', { minimumFractionDigits: 2 });
+                localStorage.setItem('ubii_bal', balFormatted);
+            }
+
+            actualizarUINombres(
+                localStorage.getItem('ubii_nom'), 
+                localStorage.getItem('ubii_mail'), 
+                localStorage.getItem('ubii_niv'), 
+                localStorage.getItem('ubii_bal'), 
+                localStorage.getItem('ubii_foto')
+            );
+            cerrarModalEditarPerfil();
+        }
+
+        function enviarPagoSMS() {
+            const monto = document.getElementById('inMonto').value;
+            const dni = document.getElementById('inDni').value;
+            const phone = document.getElementById('inPhone').value;
+            const banco = document.getElementById('inBanco').value;
+
+            if (!monto || !dni || !phone) {
+                alert('Por favor completa los datos de pago.');
+                return;
+            }
+
+            const ref = Math.floor(100000 + Math.random() * 900000);
+            const msg = `[UBII APP - COMPROBANTE]\nMonto: Bs. ${monto}\nCI: ${dni}\nBanco: ${banco}\nRef: #UBII-${ref}\nEstatus: EXITOSO (SHA-256)`;
+
+            cerrarModalPago();
+            window.location.href = `sms:${phone}?body=${encodeURIComponent(msg)}`;
+        }
+    </script>
+</body>
+</html>
+
+b

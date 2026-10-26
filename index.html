@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubi app</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Crypto-JS para Cifrado AES-256 y SHA-256 en segundo plano -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #121316;
+            color: #FFFFFF;
+        }
+        .bg-dark-card { background-color: #18191E; }
+        .bg-dark-main { background-color: #121316; }
+        .border-dark { border-color: #2A2C35; }
+        
+        @keyframes scaleUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-success {
+            animation: scaleUp 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-dark-main min-h-screen flex justify-center items-center">
+
+    <!-- CONTENEDOR MÓVIL / RESPONSIVO -->
+    <div id="app-container" class="w-full max-w-md h-screen md:h-[844px] md:rounded-[40px] md:border-[8px] md:border-gray-800 bg-dark-main flex flex-col relative overflow-hidden shadow-2xl">
+
+        <!-- ================= 1. VISTA: LOGIN BIOMÉTRICO ================= -->
+        <div id="view-login" class="flex-1 flex flex-col justify-between p-6 bg-gradient-to-b from-[#00A3FF] to-[#7000FF]">
+            <div class="pt-12 text-center">
+                <h1 class="text-3xl font-bold tracking-tight text-white flex items-center justify-center gap-2">
+                    <span class="bg-white text-[#00A3FF] px-2 py-1 rounded-lg text-xl font-extrabold">Ü</span> Ubi app
+                </h1>
+            </div>
+
+            <div class="space-y-4 my-auto">
+                <div>
+                    <label class="text-xs text-blue-100 font-medium">Correo</label>
+                    <input type="email" id="login-email" value="yeiccer@ubiapp.com" class="w-full bg-transparent border-b border-white/40 py-2 text-white placeholder-white/50 focus:outline-none focus:border-white text-sm">
+                </div>
+                <div>
+                    <label class="text-xs text-blue-100 font-medium">Contraseña</label>
+                    <input type="password" id="login-pass" value="********" class="w-full bg-transparent border-b border-white/40 py-2 text-white placeholder-white/50 focus:outline-none focus:border-white text-sm">
+                    <div class="text-right mt-1">
+                        <a href="#" class="text-xs text-blue-200 hover:underline">¿Olvidaste tu contraseña?</a>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex gap-3 items-center">
+                    <button onclick="loginUser()" class="flex-1 bg-white text-gray-900 font-semibold py-3.5 rounded-xl shadow-lg hover:bg-gray-100 transition">Entrar</button>
+                    <button onclick="loginUser()" class="bg-white p-3 rounded-xl shadow-lg hover:bg-gray-100 transition text-[#00A3FF] flex items-center justify-center">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0115.171 17m3.839-1.132c.645-2.266.99-4.659.9-7.106A9 9 0 003 9c0 1.956.452 3.79 1.253 5.385"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="text-center pb-4">
+                <a href="#" class="text-xs text-white/80 hover:underline">¿No tienes cuenta? Regístrate</a>
+            </div>
+        </div>
+
+        <!-- ================= 2. VISTA: DASHBOARD ================= -->
+        <div id="view-dashboard" class="flex-1 flex flex-col hidden overflow-y-auto pb-20">
+            <div class="px-6 pt-8 pb-4 flex justify-between items-center bg-dark-card border-b border-dark">
+                <div>
+                    <p class="text-xs text-gray-400">Buenos días,</p>
+                    <h2 class="text-lg font-bold text-white">Yeiccer</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="text-gray-400 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg></button>
+                    <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white font-bold">Y</div>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Saldo -->
+                <div class="bg-dark-card p-5 rounded-2xl border border-dark shadow-lg">
+                    <p class="text-xs text-gray-400 font-medium">Bolívares</p>
+                    <h3 class="text-3xl font-extrabold text-white mt-1">40.305,28 <span class="text-sm font-normal text-gray-400">Bs</span></h3>
+                </div>
+
+                <!-- Crédito -->
+                <div class="bg-dark-card p-5 rounded-2xl border border-dark shadow-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs text-gray-400 font-medium">Crédito disponible:</span>
+                        <span class="text-xs text-gray-400">Mi deuda: $70,00</span>
+                    </div>
+                    <p class="text-2xl font-bold text-white mb-3">$0,00</p>
+                    <div class="w-full bg-gray-700 h-1.5 rounded-full overflow-hidden mb-4">
+                        <div class="bg-blue-500 h-full w-0"></div>
+                    </div>
+                    <button class="w-full bg-gradient-to-r from-[#00A3FF] to-[#0051FF] text-white font-semibold py-2.5 rounded-xl text-sm flex items-center justify-center gap-2 shadow-md">
+                        Mis créditos <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Pagos Rápidos -->
+                <div>
+                    <h4 class="text-sm font-bold text-gray-300 mb-3">Pagos rápidos</h4>
+                    <div class="grid grid-cols-4 gap-3">
+                        <div onclick="openPaymentModal('Pago Móvil')" class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 transition">
+                            <div class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center mb-2 text-white font-bold text-xs">P.M</div>
+                            <span class="text-[11px] text-gray-300 font-medium">Pago Móvil</span>
+                        </div>
+                        <div onclick="openPaymentModal('Recarga con tarjeta')" class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 transition">
+                            <div class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center mb-2 text-white font-bold text-xs">VISA</div>
+                            <span class="text-[11px] text-gray-300 font-medium">Recarga tarjeta</span>
+                        </div>
+                        <div onclick="openPaymentModal('Pago Ubi')" class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 transition">
+                            <div class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center mb-2 text-white font-bold text-xs">Ü</div>
+                            <span class="text-[11px] text-gray-300 font-medium">Pago Ubi</span>
+                        </div>
+                        <div onclick="openPaymentModal('Cuenta Bancaria')" class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 transition">
+                            <div class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center mb-2 text-white font-bold text-xs">BANK</div>
+                            <span class="text-[11px] text-gray-300 font-medium">Recarga Bancaria</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagos de Servicios -->
+                <div>
+                    <h4 class="text-sm font-bold text-gray-300 mb-3">Pagos de servicios</h4>
+                    <div class="grid grid-cols-4 gap-3">
+                        <div class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer opacity-80"><span class="text-xs font-bold">DIGITEL</span></div>
+                        <div class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer opacity-80"><span class="text-xs font-bold">MOVISTAR</span></div>
+                        <div class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer opacity-80"><span class="text-xs font-bold">MOVILNET</span></div>
+                        <div class="bg-dark-card p-3 rounded-2xl border border-dark flex flex-col items-center justify-center text-center cursor-pointer opacity-80 relative">
+                            <span class="absolute -top-2 right-0 bg-red-600 text-[9px] px-1.5 py-0.5 rounded-full font-bold">NUEVO</span>
+                            <span class="text-xs font-bold">THUNDER</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 3. MODAL DE PAGO EXTENDIDO (CÉDULA, CELULAR Y BANCOS VENEZUELA) ================= -->
+        <div id="payment-modal" class="absolute inset-0 bg-dark-main z-50 flex flex-col hidden p-6 overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <button onclick="closePaymentModal()" class="text-white text-lg font-bold">✕ Cancelar</button>
+                <h3 id="modal-title" class="text-base font-bold text-white">Procesar Operación</h3>
+                <div class="w-6"></div>
+            </div>
+
+            <div class="space-y-3 my-auto">
+                <div>
+                    <label class="text-xs text-gray-400 font-medium">Banco Destino</label>
+                    <select id="pay-bank" class="w-full bg-dark-card border border-dark rounded-xl p-3 text-white text-sm focus:outline-none focus:border-blue-500 mt-1">
+                        <option value="BBVA Provincial">0108 - BBVA Provincial</option>
+                        <option value="Banesco">0134 - Banesco</option>
+                        <option value="Banco de Venezuela">0102 - Banco de Venezuela</option>
+                        <option value="Mercantil">0105 - Banco Mercantil</option>
+                        <option value="BNC">0191 - Banco Nacional de Crédito (BNC)</option>
+                        <option value="Bancamiga">0172 - Bancamiga</option>
+                        <option value="Banco Caroní">0128 - Banco Caroní</option>
+                        <option value="BOD / BFC">0151 - Fondo Común (BFC)</option>
+                        <option value="Banplus">0174 - Banplus</option>
+                        <option value="Banco Tesoro">0163 - Tesoro</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 font-medium">Cédula de Identidad (Cliente)</label>
+                    <input type="text" id="pay-dni" value="V-28123456" class="w-full bg-dark-card border border-dark rounded-xl p-3 text-white font-medium focus:outline-none focus:border-blue-500 mt-1" placeholder="Ej: V-28123456">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 font-medium">Número de Celular</label>
+                    <input type="text" id="pay-phone" value="04121234567" class="w-full bg-dark-card border border-dark rounded-xl p-3 text-white font-medium focus:outline-none focus:border-blue-500 mt-1" placeholder="Ej: 04121234567">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 font-medium">Monto a Procesar (Bs)</label>
+                    <input type="text" id="pay-amount" value="150,00" class="w-full bg-dark-card border border-dark rounded-xl p-3 text-white font-bold text-lg focus:outline-none focus:border-blue-500 mt-1">
+                </div>
+                <div class="pt-2">
+                    <button onclick="processSecurePayment()" class="w-full bg-[#00A3FF] hover:bg-blue-600 text-white font-bold py-3.5 rounded-xl shadow-lg transition">Confirmar y Generar Pago</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 4. PANTALLA DE ÉXITO ANIMADA ================= -->
+        <div id="view-success" class="absolute inset-0 bg-[#00A3FF] z-50 flex flex-col items-center justify-center text-white hidden p-6">
+            <div class="animate-success flex flex-col items-center">
+                <div class="w-24 h-24 rounded-full border-4 border-white flex items-center justify-center mb-6 shadow-xl">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h2 class="text-2xl font-bold tracking-tight text-center">¡Transacción realizada exitosamente!</h2>
+            </div>
+        </div>
+
+        <!-- ================= 5. RECIBO Y DESPACHO SMS NATIVO ================= -->
+        <div id="view-receipt" class="absolute inset-0 bg-[#00A3FF] z-50 flex flex-col p-6 hidden overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <button onclick="returnToDashboard()" class="text-white font-bold text-lg">← Volver</button>
+                <span class="text-xs font-bold uppercase tracking-wider text-white/80">Comprobante Seguro</span>
+                <div class="w-6"></div>
+            </div>
+
+            <!-- Recibo Formal Bancario -->
+            <div class="bg-dark-card/95 backdrop-blur-md rounded-2xl p-5 border border-white/10 space-y-3 text-sm shadow-2xl my-auto">
+                <div class="flex justify-between border-b border-white/10 pb-2">
+                    <span class="text-gray-400 text-xs">Banco Destino</span>
+                    <span id="rec-bank" class="font-bold text-white">BBVA Provincial</span>
+                </div>
+                <div class="flex justify-between border-b border-white/10 pb-2">
+                    <span class="text-gray-400 text-xs">Cédula Cliente</span>
+                    <span id="rec-dni" class="font-medium text-white">V-28123456</span>
+                </div>
+                <div class="flex justify-between border-b border-white/10 pb-2">
+                    <span class="text-gray-400 text-xs">Monto Procesado</span>
+                    <span id="rec-amount" class="font-bold text-white">Bs. 150,00</span>
+                </div>
+                <div class="flex justify-between border-b border-white/10 pb-2">
+                    <span class="text-gray-400 text-xs">Celular</span>
+                    <span id="rec-phone" class="font-medium text-white">04121234567</span>
+                </div>
+                <div class="flex justify-between border-b border-white/10 pb-2">
+                    <span class="text-gray-400 text-xs">Referencia</span>
+                    <span id="rec-ref" class="font-mono font-bold text-white">#UBII-280806</span>
+                </div>
+                <div class="flex justify-between pb-1">
+                    <span class="text-gray-400 text-xs">Fecha / Hora</span>
+                    <span id="rec-date" class="text-xs text-white">25/10/2026, 6:45:49 p. m.</span>
+                </div>
+            </div>
+
+            <!-- Consola de Ciberseguridad Oculta (Trabaja en segundo plano) -->
+            <div id="hidden-console" class="hidden">
+                <span id="rec-hash">SHA256: 7c4698ec208ec6cb5ab32c2f4b43</span>
+            </div>
+
+            <!-- Botón de Envío por SMS Nativo -->
+            <button onclick="dispatchSmsNative()" class="w-full bg-[#00C853] hover:bg-green-600 text-white font-bold py-3.5 px-4 rounded-xl shadow-xl flex items-center justify-center gap-2 transition text-sm mt-4">
+                <span>Enviar Comprobante por SMS Nativo</span>
+            </button>
+        </div>
+
+        <!-- ================= BARRA DE NAVEGACIÓN INFERIOR ================= -->
+        <div id="bottom-nav" class="bg-dark-card border-t border-dark h-16 flex justify-around items-center px-4 mt-auto hidden">
+            <button class="flex flex-col items-center text-[#00A3FF]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <span class="text-[10px] mt-1 font-medium">Mi Cuenta</span>
+            </button>
+            <button class="flex flex-col items-center text-gray-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span class="text-[10px] mt-1 font-medium">Tarjetas</span>
+            </button>
+            <button class="flex flex-col items-center text-gray-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                <span class="text-[10px] mt-1 font-medium">Ayuda</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT LÓGICO Y DE SEGURIDAD -->
+    <script>
+        let currentTransactionData = {};
+
+        function loginUser() {
+            document.getElementById('view-login').classList.add('hidden');
+            document.getElementById('view-dashboard').classList.remove('hidden');
+            document.getElementById('bottom-nav').classList.remove('hidden');
+        }
+
+        function openPaymentModal(serviceName) {
+            document.getElementById('modal-title').innerText = "Procesar: " + serviceName;
+            document.getElementById('payment-modal').classList.remove('hidden');
+            currentTransactionData.service = serviceName;
+        }
+
+        function closePaymentModal() {
+            document.getElementById('payment-modal').classList.add('hidden');
+        }
+
+        function processSecurePayment() {
+            const bank = document.getElementById('pay-bank').value;
+            const dni = document.getElementById('pay-dni').value;
+            const amount = document.getElementById('pay-amount').value;
+            const phone = document.getElementById('pay-phone').value;
+            const reference = "#UBII-" + Math.floor(100000 + Math.random() * 900000);
+            const dateStr = new Date().toLocaleString();
+
+            currentTransactionData.bank = bank;
+            currentTransactionData.dni = dni;
+            currentTransactionData.amount = amount;
+            currentTransactionData.phone = phone;
+            currentTransactionData.reference = reference;
+            currentTransactionData.date = dateStr;
+
+            // Ciberseguridad: Cálculo de Hash SHA-256 interno en segundo plano
+            const rawString = reference + amount + phone + dni;
+            const sha256Hash = CryptoJS.SHA256(rawString).toString();
+
+            document.getElementById('rec-bank').innerText = bank;
+            document.getElementById('rec-dni').innerText = dni;
+            document.getElementById('rec-amount').innerText = "Bs. " + amount;
+            document.getElementById('rec-phone').innerText = phone;
+            document.getElementById('rec-ref').innerText = reference;
+            document.getElementById('rec-date').innerText = dateStr;
+            document.getElementById('rec-hash').innerText = "SHA256: " + sha256Hash;
+
+            closePaymentModal();
+
+            const successView = document.getElementById('view-success');
+            const receiptView = document.getElementById('view-receipt');
+
+            successView.classList.remove('hidden');
+
+            setTimeout(() => {
+                successView.classList.add('hidden');
+                receiptView.classList.remove('hidden');
+            }, 1800);
+        }
+
+        function returnToDashboard() {
+            document.getElementById('view-receipt').classList.add('hidden');
+        }
+
+        function dispatchSmsNative() {
+            const phone = currentTransactionData.phone.replace(/[^0-9]/g, '');
+            // Formato de Mensaje de Texto (SMS) Formal y Profesional
+            const mensaje = `[UBI APP] COMPROBANTE\n` +
+                            `Banco: ${currentTransactionData.bank}\n` +
+                            `Cedula: ${currentTransactionData.dni}\n` +
+                            `Monto: Bs. ${currentTransactionData.amount}\n` +
+                            `Ref: ${currentTransactionData.reference}\n` +
+                            `Fecha: ${currentTransactionData.date}`;
+
+            // Protocolo Nativo SMS del Celular
+            const urlSms = `sms:${phone}?body=${encodeURIComponent(mensaje)}`;
+            window.open(urlSms, '_blank');
+        }
+    </script>
+</body>
+</html>

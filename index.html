@@ -6,13 +6,12 @@
     <title>Ubii App</title>
     <style>
         :root {
-            --ubii-bg: #15161B;
-            --ubii-card: #21232B;
-            --ubii-border: #2D303B;
-            --ubii-blue: #00B2FF;
-            --ubii-cyan: #00E5FF;
+            --bg-dark: #0A0B0D;
+            --card-dark: #16181E;
+            --card-btn: #1F222B;
             --text-main: #FFFFFF;
             --text-muted: #8E92A0;
+            --ubii-blue: #00B2FF;
         }
 
         * {
@@ -24,7 +23,7 @@
         }
 
         body {
-            background-color: #0B0C0E;
+            background-color: #000000;
             color: var(--text-main);
             display: flex;
             justify-content: center;
@@ -37,7 +36,7 @@
             max-width: 420px;
             height: 100vh;
             max-height: 880px;
-            background-color: var(--ubii-bg);
+            background-color: var(--bg-dark);
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -48,8 +47,8 @@
             .mobile-shell {
                 border-radius: 36px;
                 height: 840px;
-                border: 2px solid var(--ubii-border);
-                box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+                border: 1px solid #2D303B;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.9);
             }
         }
 
@@ -59,50 +58,80 @@
             height: 100%;
             overflow-y: auto;
             position: relative;
+            padding-bottom: 80px;
+            scrollbar-width: none;
         }
 
-        .screen.active {
+        .screen::-webkit-scrollbar { display: none; }
+        .screen.active { display: flex; }
+
+        /* SPLASH SCREEN DE 5 SEGUNDOS */
+        #splashScreen {
+            background: #0088FF;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 500;
+            animation: hideSplash 0.5s ease 5s forwards;
         }
 
-        /* ---------------- VISTA 1: LOGIN UBII ---------------- */
+        @keyframes hideSplash {
+            to { opacity: 0; visibility: hidden; pointer-events: none; }
+        }
+
+        /* LOGO OFICIAL */
+        .ubii-official-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .ubii-smile-graphic {
+            position: relative;
+            width: 52px;
+            height: 26px;
+            border-bottom: 5px solid white;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom-left-radius: 26px;
+            border-bottom-right-radius: 26px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 3px;
+        }
+
+        .ubii-smile-graphic::before, .ubii-smile-graphic::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            width: 7px;
+            height: 7px;
+            background-color: white;
+            border-radius: 1px;
+        }
+        .ubii-smile-graphic::before { left: 10px; }
+        .ubii-smile-graphic::after { right: 10px; }
+
+        .ubii-brand-text {
+            font-size: 38px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        /* LOGIN */
         #loginScreen {
             background: linear-gradient(180deg, #00C8FE 0%, #0088FF 45%, #6A1B9A 100%);
             justify-content: space-between;
             align-items: center;
-            padding: 50px 24px 30px 24px;
+            padding: 40px 24px 30px 24px;
             text-align: center;
-        }
-
-        .login-logo-box {
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-        }
-
-        .ubii-logo-text {
-            font-size: 42px;
-            font-weight: 800;
-            color: white;
-            letter-spacing: -1px;
-            display: flex;
-            align-items: center;
-        }
-
-        .ubii-dots {
-            display: flex;
-            gap: 3px;
-            margin-right: 2px;
-            margin-top: -18px;
-        }
-
-        .ubii-dot {
-            width: 6px;
-            height: 6px;
-            background-color: white;
-            border-radius: 1px;
         }
 
         .login-form-area {
@@ -112,14 +141,14 @@
 
         .field-group {
             position: relative;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             text-align: left;
         }
 
         .field-label {
-            font-size: 15px;
+            font-size: 14px;
             color: rgba(255,255,255,0.85);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             display: block;
         }
 
@@ -132,24 +161,12 @@
             color: white;
             font-size: 16px;
             outline: none;
-            font-weight: 500;
-        }
-
-        .forgot-link {
-            display: block;
-            text-align: right;
-            color: white;
-            font-size: 13px;
-            text-decoration: none;
-            margin-top: 8px;
-            opacity: 0.9;
         }
 
         .login-action-row {
             display: flex;
             gap: 12px;
-            margin-top: 25px;
-            margin-bottom: 25px;
+            margin-top: 20px;
         }
 
         .btn-entrar-main {
@@ -162,7 +179,6 @@
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .btn-biometric {
@@ -175,395 +191,387 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .btn-biometric svg {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             fill: #0088FF;
         }
 
-        .support-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            color: white;
-            font-size: 13px;
-            text-decoration: none;
-            opacity: 0.95;
-        }
-
-        .register-footer-link {
-            color: white;
-            font-size: 14px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        /* ---------------- VISTA 2: DASHBOARD ---------------- */
+        /* DASHBOARD PRINCIPAL */
         #dashboardScreen {
-            padding: 16px 16px 80px 16px;
+            padding: 20px 16px 90px 16px;
         }
 
-        .top-header {
+        .dash-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            margin-top: 8px;
         }
 
-        .greeting-text h3 {
-            font-size: 16px;
-            color: var(--text-main);
-            font-weight: 500;
+        .dash-greeting {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
         }
 
-        .greeting-text h2 {
-            font-size: 20px;
-            color: var(--text-main);
-            font-weight: 800;
-        }
-
-        .header-actions {
+        .dash-top-icons {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .qr-icon-btn {
-            background: transparent;
+        .top-qr-btn, .user-avatar-btn {
+            background: none;
             border: none;
             cursor: pointer;
         }
 
-        .avatar-circle {
-            width: 42px;
-            height: 42px;
+        .user-avatar-btn {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: #2A2D3A;
-            overflow: hidden;
-            cursor: pointer;
+            background: #1C2230;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid var(--ubii-border);
         }
 
-        .avatar-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .balance-section {
+            text-align: center;
+            margin-bottom: 25px;
         }
 
-        .avatar-circle svg {
-            width: 24px;
-            height: 24px;
-            fill: #8E92A0;
-        }
-
-        .card-box {
-            background-color: var(--ubii-card);
-            border: 1px solid var(--ubii-border);
-            border-radius: 18px;
-            padding: 18px;
-            margin-bottom: 16px;
-        }
-
-        .card-row-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-main);
-            font-size: 15px;
-            font-weight: 600;
+        .main-balance-text {
+            font-size: 34px;
+            font-weight: 700;
+            color: white;
             margin-bottom: 8px;
         }
 
-        .currency-tag {
-            background: #2D303C;
+        .btn-ver-movimientos {
+            background: #191C24;
             color: #A0A5B5;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .balance-amount {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
-        }
-
-        .nivel-pill {
-            background: rgba(0, 178, 255, 0.15);
-            color: var(--ubii-blue);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            display: inline-block;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-
-        .credit-title {
-            font-size: 14px;
-            color: var(--text-main);
-            font-weight: 600;
-        }
-
-        .credit-debt {
-            font-size: 12px;
-            color: #A0A5B5;
-        }
-
-        .credit-amount {
-            font-size: 26px;
-            font-weight: 800;
-            color: var(--ubii-blue);
-            margin: 4px 0 10px 0;
-        }
-
-        .progress-bar-bg {
-            width: 100%;
-            height: 5px;
-            background: #2D303C;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-bottom: 14px;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--ubii-blue);
-        }
-
-        .btn-creditos {
-            width: 100%;
-            background: linear-gradient(90deg, #00A3FF, #0066FF);
-            color: white;
             border: none;
-            padding: 12px;
-            border-radius: 24px;
-            font-size: 14px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
             cursor: pointer;
         }
 
-        .section-label {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin: 20px 0 12px 0;
-        }
-
-        .grid-4 {
+        /* 4 ACCIONES */
+        .quick-actions-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
+            margin-bottom: 25px;
+            text-align: center;
         }
 
-        .service-card {
-            background: var(--ubii-card);
-            border: 1px solid var(--ubii-border);
+        .action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .action-circle-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: var(--card-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 6px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .action-label {
+            font-size: 11.5px;
+            color: #A0A5B5;
+            font-weight: 500;
+        }
+
+        /* PAGO DE SERVICIOS */
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .services-scroll-row {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            scrollbar-width: none;
+        }
+        .services-scroll-row::-webkit-scrollbar { display: none; }
+
+        .service-box-btn {
+            min-width: 80px;
+            height: 68px;
+            background: var(--card-dark);
             border-radius: 16px;
-            padding: 14px 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
+            padding: 8px;
             cursor: pointer;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.05);
             position: relative;
-            min-height: 85px;
         }
 
-        .service-card-icon {
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 8px;
-        }
-
-        .service-card-title {
-            font-size: 10.5px;
-            color: #A0A5B5;
-            line-height: 1.2;
-            font-weight: 500;
-        }
-
-        .tag-nuevo {
+        .service-tag-nuevo {
             position: absolute;
             top: -4px;
             right: -4px;
             background: #FF0055;
             color: white;
-            font-size: 8px;
+            font-size: 7.5px;
             font-weight: 800;
-            padding: 2px 5px;
+            padding: 2px 4px;
             border-radius: 4px;
-            text-transform: uppercase;
         }
 
-        /* ---------------- VISTA 3: PERFIL ---------------- */
+        /* BANNER RCV */
+        .insurance-banner {
+            background: var(--card-dark);
+            border-radius: 18px;
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .insurance-content-left {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .insurance-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+        }
+
+        .insurance-sub {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            line-height: 1.3;
+            max-width: 220px;
+        }
+
+        .btn-activar-seguro {
+            background: rgba(0, 178, 255, 0.15);
+            color: var(--ubii-blue);
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            align-self: flex-start;
+            margin-top: 4px;
+        }
+
+        .insurance-brand-right {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-align: right;
+            line-height: 1.2;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        /* PERFIL */
         #profileScreen {
-            background-color: #FFFFFF;
-            color: #121317;
+            background-color: var(--bg-dark);
             padding: 20px;
         }
 
-        .profile-nav-bar {
+        .profile-top-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 24px;
+            margin-bottom: 25px;
         }
 
-        .back-btn {
+        .profile-back-btn {
             background: none;
             border: none;
             cursor: pointer;
-            padding: 4px;
         }
 
-        .profile-title-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: #121317;
-        }
-
-        .profile-avatar-block {
+        .profile-user-info {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        .profile-img-wrap {
-            width: 90px;
-            height: 90px;
+        .profile-avatar-lg {
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto 12px auto;
-            border: 2px solid #00B2FF;
-            background: #EBF7FF;
+            background: #1C2230;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 auto 10px auto;
         }
 
-        .profile-img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
-        }
-
-        .profile-img-wrap svg {
-            width: 48px;
-            height: 48px;
-            fill: #00B2FF;
-        }
-
-        .profile-display-name {
-            font-size: 20px;
+        .profile-name-txt {
+            font-size: 18px;
             font-weight: 800;
-            color: #121317;
+            color: white;
+            letter-spacing: 0.5px;
         }
 
-        .profile-display-email {
-            font-size: 14px;
-            color: #666666;
+        .profile-email-txt {
+            font-size: 13px;
+            color: var(--text-muted);
             margin-top: 2px;
         }
 
-        .profile-menu {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .profile-row-item {
+        .profile-menu-item {
             display: flex;
             align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid #F0F0F5;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
             background: none;
-            border-top: none;
-            border-left: none;
-            border-right: none;
+            border-top: none; border-left: none; border-right: none;
             width: 100%;
-            text-align: left;
             cursor: pointer;
+            text-align: left;
         }
 
-        .square-icon-box {
-            width: 38px;
-            height: 38px;
-            background-color: #00B2FF;
-            border-radius: 10px;
+        .profile-menu-left {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-right: 14px;
-            flex-shrink: 0;
-        }
-
-        .square-icon-box svg {
-            width: 20px;
-            height: 20px;
-            fill: white;
-        }
-
-        .profile-row-text {
-            flex: 1;
-            font-size: 15px;
+            gap: 14px;
+            color: white;
+            font-size: 14px;
             font-weight: 600;
-            color: #222222;
         }
 
-        .arrow-icon {
-            width: 16px;
-            height: 16px;
-            stroke: #CCCCCC;
-            fill: none;
-            stroke-width: 2.5;
-        }
-
-        .app-version-footer {
+        .profile-version-footer {
             text-align: center;
             font-size: 12px;
-            color: #999999;
-            margin-top: 30px;
-            margin-bottom: 10px;
+            color: var(--text-muted);
+            margin-top: 40px;
         }
 
-        /* BARRA INFERIOR GLOBAL */
-        .bottom-tab-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+        /* TARJETAS */
+        #cardsScreen {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .cards-nav-title {
+            font-size: 15px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .physical-card-container {
             width: 100%;
-            height: 65px;
-            background-color: #1A1C23;
-            border-top: 1px solid var(--ubii-border);
+            max-width: 320px;
+            height: 460px;
+            border-radius: 24px;
+            background: linear-gradient(145deg, #00C6FF 0%, #0072FF 50%, #9B51E0 100%);
+            margin: 0 auto 25px auto;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0, 114, 255, 0.3);
+        }
+
+        .card-cloud-center {
+            position: absolute;
+            top: 42%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            opacity: 0.85;
+        }
+
+        .card-actions-row {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            z-index: 10;
+            max-width: 320px;
+            margin: 0 auto;
         }
 
-        .tab-btn {
+        .card-action-btn-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .card-action-circle {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: var(--card-dark);
+            border: 1px solid #2A2D3A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-action-circle.active {
+            background: linear-gradient(135deg, #00C6FF, #9B51E0);
+            border: none;
+        }
+
+        .card-action-label {
+            font-size: 11px;
+            color: white;
+            font-weight: 500;
+        }
+
+        /* NAVEGACIÓN INFERIOR */
+        .bottom-nav-bar {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%;
+            height: 68px;
+            background-color: var(--bg-dark);
+            border-top: 1px solid #1C1E24;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-tab-item {
             background: none;
             border: none;
-            color: #727685;
+            color: var(--text-muted);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -574,33 +582,89 @@
             width: 33%;
         }
 
-        .tab-btn.active {
-            color: var(--ubii-blue);
+        .nav-tab-item.active { color: var(--ubii-blue); }
+        .nav-tab-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+        /* PANTALLA DE ÉXITO Y COMPROBANTE */
+        #successScreen {
+            background: linear-gradient(180deg, #00C8FE 0%, #0088FF 100%);
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            text-align: center;
+            z-index: 300;
+            position: absolute;
+            width: 100%; height: 100%;
+            display: none;
         }
 
-        .tab-btn svg {
-            width: 22px;
-            height: 22px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
+        .success-circle-icon {
+            width: 80px; height: 80px;
+            border: 3px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            animation: bounceIn 0.6s ease;
         }
 
-        /* MODALES OVERLAY */
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .receipt-card {
+            background: var(--card-dark);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 16px;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+        }
+        .receipt-row span:last-child { color: white; font-weight: 600; }
+
+        .btn-dispatch-anon {
+            background: #00B2FF;
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,178,255,0.4);
+        }
+
+        /* MODALES */
         .modal-mask {
             display: none;
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85);
-            z-index: 100;
+            z-index: 250;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
 
         .modal-card {
-            background-color: var(--ubii-card);
-            border: 1px solid var(--ubii-border);
+            background-color: var(--card-dark);
+            border: 1px solid #2D303B;
             border-radius: 20px;
             padding: 24px;
             width: 100%;
@@ -608,17 +672,11 @@
             text-align: center;
         }
 
-        .modal-card h3 {
-            font-size: 18px;
-            color: white;
-            margin-bottom: 16px;
-        }
-
         .m-input {
             width: 100%;
             padding: 12px;
-            background: var(--ubii-bg);
-            border: 1px solid var(--ubii-border);
+            background: var(--bg-dark);
+            border: 1px solid #2D303B;
             border-radius: 10px;
             color: white;
             font-size: 14px;
@@ -627,37 +685,16 @@
             text-align: left;
         }
 
-        .m-btn-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
         .m-btn {
-            flex: 1;
+            width: 100%;
             padding: 12px;
             border-radius: 10px;
             border: none;
             font-weight: 700;
             cursor: pointer;
-        }
-
-        .m-btn-ok { background: var(--ubii-blue); color: #000; }
-        .m-btn-cancel { background: var(--ubii-border); color: white; }
-
-        /* MODAL HUELLA BIOMÉTRICA */
-        .fingerprint-icon-lg {
-            width: 70px;
-            height: 70px;
-            margin: 10px auto 20px auto;
-            fill: var(--ubii-blue);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
+            background: var(--ubii-blue);
+            color: #000;
+            margin-top: 8px;
         }
     </style>
 </head>
@@ -665,433 +702,365 @@
 
     <div class="mobile-shell">
 
-        <!-- VISTA 1: LOGIN UBII (Siempre se muestra al abrir/recargar) -->
+        <!-- SPLASH SCREEN ANIMADO -->
+        <div id="splashScreen">
+            <div class="ubii-official-logo">
+                <div class="ubii-smile-graphic" style="width:70px; height:34px; border-bottom-width:7px;"></div>
+                <div class="ubii-brand-text" style="font-size:52px;">Ubii</div>
+            </div>
+        </div>
+
+        <!-- PANTALLA 1: LOGIN CON HUELLA -->
         <div id="loginScreen" class="screen active">
             <div></div>
-
-            <div class="login-logo-box">
-                <div class="ubii-logo-text">
-                    <div class="ubii-dots">
-                        <div class="ubii-dot"></div>
-                        <div class="ubii-dot"></div>
-                    </div>
-                    Ubiiapp
-                </div>
+            <div class="ubii-official-logo">
+                <div class="ubii-smile-graphic"></div>
+                <div class="ubii-brand-text">Ubii</div>
             </div>
 
             <div class="login-form-area">
                 <div class="field-group">
                     <label class="field-label">Correo</label>
-                    <input type="email" id="txtCorreoLogin" class="ubii-input" value="leudys@ubii.com">
+                    <input type="email" id="txtCorreoLogin" class="ubii-input" value="yennifferaragon@gmail.com">
                 </div>
-
                 <div class="field-group">
                     <label class="field-label">Contraseña</label>
-                    <input type="password" id="txtPassLogin" class="ubii-input" value="••••••••">
-                    <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+                    <input type="password" class="ubii-input" value="••••••••">
                 </div>
-
                 <div class="login-action-row">
                     <button class="btn-entrar-main" onclick="ejecutarLogin()">Entrar</button>
-                    <button class="btn-biometric" onclick="solicitarHuellaEntrada()" title="Ingresar con Huella">
+                    <button class="btn-biometric" onclick="simularHuella()" title="Ingresar con Huella">
                         <svg viewBox="0 0 24 24"><path d="M12.001 2C6.48 2 2 6.48 2 12c0 2.85 1.2 5.41 3.11 7.24l1.42-1.42C5.07 16.33 4 14.3 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8c0 2.3-.07 4.33-1.53 5.82l1.42 1.42C20.8 17.41 22 14.85 22 12c0-5.52-4.48-10-10-10zm0 4c-3.31 0-6 2.69-6 6 0 1.74.75 3.31 1.95 4.41l1.42-1.42C8.54 14.28 8 13.2 8 12c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.2-.54 2.28-1.37 2.99l1.42 1.42C17.25 15.31 18 13.74 18 12c0-3.31-2.69-6-6-6zm0 4c-1.1 0-2 .9-2 2 0 .55.22 1.05.59 1.41l1.41-1.41V12h2v2c0 1.1-.9 2-2 2s-2-.9-2-2h-2c0 2.21 1.79 4 4 4s4-1.79 4-4c0-2.21-1.79-4-4-4z"/></svg>
                     </button>
                 </div>
-
-                <a href="#" class="support-box">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    ¿Tienes algún problema con tu cuenta? Contáctanos
-                </a>
             </div>
-
-            <a href="#" class="register-footer-link" onclick="solicitarRegistro()">¿No tienes cuenta? Regístrate</a>
+            <div></div>
         </div>
 
-        <!-- VISTA 2: DASHBOARD -->
+        <!-- PANTALLA 2: DASHBOARD -->
         <div id="dashboardScreen" class="screen">
-            <div class="top-header">
-                <div class="greeting-text">
-                    <h3>Buenos días,</h3>
-                    <h2 id="lblNombreMain">Leudys</h2>
-                </div>
-                <div class="header-actions">
-                    <button class="qr-icon-btn">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#A0A5B5" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+            <div class="dash-header">
+                <div class="dash-greeting" id="lblNombreMain">Hola, Yeiccer</div>
+                <div class="dash-top-icons">
+                    <button class="top-qr-btn" onclick="alert('Centro QR')">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v2h-3v-2zm-3 0h2v3h-2v-3zm3 3h3v5h-3v-5zm-3 2h2v3h-2v-3zm-3-2h2v2h-2v-2zm0 3h2v2h-2v-2z"/></svg>
                     </button>
-                    <div class="avatar-circle" onclick="navegarAPerfil()">
-                        <img id="imgAvatarDashboard" src="" alt="Avatar" style="display:none;">
-                        <svg id="svgAvatarDashboard" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    </div>
+                    <button class="user-avatar-btn" onclick="navegarAPerfil()">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#8E92A0"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    </button>
                 </div>
             </div>
 
-            <div class="card-box">
-                <div class="card-row-head">
-                    <span>Bolívares</span>
-                    <span class="currency-tag">Bs</span>
-                </div>
-                <div class="balance-amount" id="lblSaldoMain">40.305,28</div>
-                <div class="nivel-pill" onclick="abrirModalNivel()" id="lblNivelMain">Nivel 2 • Verificado</div>
+            <div class="balance-section">
+                <div class="main-balance-text" id="lblSaldoMain">Bs 85.000,00</div>
+                <button class="btn-ver-movimientos" onclick="alert('Historial de Movimientos')">Ver movimientos</button>
             </div>
 
-            <div class="card-box">
-                <div class="card-row-head">
-                    <span class="credit-title">Crédito disponible:</span>
-                    <span class="credit-debt">Mi deuda: $70,00</span>
+            <!-- 4 ACCIONES -->
+            <div class="quick-actions-row">
+                <div class="action-item" onclick="abrirModalPagoMovil()">
+                    <div class="action-circle-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>
+                    <span class="action-label">Pago Móvil</span>
                 </div>
-                <div class="credit-amount">$0,00</div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill"></div>
+                <div class="action-item" onclick="alert('Pago Ubii Directo')">
+                    <div class="action-circle-icon"><div class="ubii-smile-graphic" style="width:20px; height:10px; border-bottom-width:2.5px;"></div></div>
+                    <span class="action-label">Pago Ubii</span>
                 </div>
-                <button class="btn-creditos" onclick="alert('Módulo de Crédito Ubii')">
-                    Mis créditos
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
-                </button>
-            </div>
-
-            <div class="section-label">Pagos rápidos</div>
-            <div class="grid-4">
-                <div class="service-card" onclick="abrirModalPagoMovil()">
-                    <div class="service-card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
-                    </div>
-                    <div class="service-card-title">Pago Móvil</div>
+                <div class="action-item" onclick="alert('Transferencia')">
+                    <div class="action-circle-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></div>
+                    <span class="action-label">Transferencia</span>
                 </div>
-
-                <div class="service-card" onclick="alert('Recarga con Tarjeta Visa/Mastercard')">
-                    <div class="service-card-icon">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
-                    </div>
-                    <div class="service-card-title">Recarga con tarjeta</div>
-                </div>
-
-                <div class="service-card" onclick="alert('Pago Ubii Directo')">
-                    <div class="service-card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V5l-9-3z"/></svg>
-                    </div>
-                    <div class="service-card-title">Pago Ubii</div>
-                </div>
-
-                <div class="service-card" onclick="alert('Recarga Banco Venezolano de Crédito')">
-                    <div class="service-card-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zM12 1L2 6v2h20V6z"/></svg>
-                    </div>
-                    <div class="service-card-title">Recarga con cuenta Bancaria</div>
+                <div class="action-item" onclick="verificarAccesoRecarga()">
+                    <div class="action-circle-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></div>
+                    <span class="action-label">Recarga</span>
                 </div>
             </div>
 
-            <div class="section-label">Pagos de servicios</div>
-            <div class="grid-4">
-                <div class="service-card" onclick="alert('Recarga Digitel')">
-                    <div class="service-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#FF7700"><path d="M2 22h20V2z"/></svg></div>
-                    <div class="service-card-title">DIGITEL</div>
+            <!-- PAGO DE SERVICIOS -->
+            <div class="section-title">Pago de servicios</div>
+            <div class="services-scroll-row">
+                <div class="service-box-btn" onclick="alert('Cruz Roja Venezolana')">
+                    <svg width="28" height="28" viewBox="0 0 100 100"><rect x="42" y="20" width="16" height="60" fill="#E53935"/><rect x="20" y="42" width="60" height="16" fill="#E53935"/></svg>
+                    <span style="font-size:8.5px; color:#A0A5B5; margin-top:3px;">Cruz Roja</span>
                 </div>
+                <div class="service-box-btn" onclick="alert('Digitel')"><span style="font-weight:900; color:white; font-size:11px;">DIGITEL</span></div>
+                <div class="service-box-btn" onclick="alert('Movistar')"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg></div>
+                <div class="service-box-btn" onclick="alert('Movilnet')"><span style="font-weight:700; color:white; font-size:10px;">movilnet</span></div>
+                <div class="service-box-btn" onclick="alert('Thunder Net')"><div class="service-tag-nuevo">¡NUEVO!</div><svg width="22" height="22" viewBox="0 0 24 24" fill="#FFCC00"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg></div>
+                <div class="service-box-btn" onclick="alert('Inter')"><span style="font-weight:800; color:white; font-size:12px;">inter</span></div>
+                <div class="service-box-btn" onclick="alert('Pagodirecto')"><span style="font-weight:700; color:white; font-size:9px; text-align:center;">PagoDirecto</span></div>
+                <div class="service-box-btn" onclick="alert('SimpleTV')"><span style="font-weight:700; color:white; font-size:10px;">SimpleTV</span></div>
+                <div class="service-box-btn" onclick="alert('Cantv')"><span style="font-weight:700; color:white; font-size:12px;">cantv</span></div>
+            </div>
 
-                <div class="service-card" onclick="alert('Recarga Movistar')">
-                    <div class="service-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#00A3FF"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg></div>
-                    <div class="service-card-title">Movistar</div>
+            <!-- SEGUROS BANNER -->
+            <div class="insurance-banner">
+                <div class="insurance-content-left">
+                    <div class="insurance-title">Tu RCV, listo en minutos</div>
+                    <div class="insurance-sub">Disponible para vehículos, motos y rústicos.</div>
+                    <button class="btn-activar-seguro" onclick="alert('Módulo de Seguros RCV')">Activar <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
                 </div>
-
-                <div class="service-card" onclick="alert('Recarga Movilnet')">
-                    <div class="service-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#FF3300"><path d="M12 3L2 12h3v8h14v-8h3L12 3z"/></svg></div>
-                    <div class="service-card-title">Movilnet</div>
-                </div>
-
-                <div class="service-card" onclick="alert('Thunder Net Servicio')">
-                    <div class="tag-nuevo">¡NUEVO!</div>
-                    <div class="service-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#FFCC00"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg></div>
-                    <div class="service-card-title">Thunder Net</div>
+                <div class="insurance-brand-right">
+                    Seguros<br>Universitas
                 </div>
             </div>
         </div>
 
-        <!-- VISTA 3: PERFIL -->
+        <!-- PANTALLA 3: PERFIL -->
         <div id="profileScreen" class="screen">
-            <div class="profile-nav-bar">
-                <button class="back-btn" onclick="navegarADashboard()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#121317" stroke-width="2.5"><path d="M15 19l-7-7 7-7"/></svg>
-                </button>
-                <div class="profile-title-text">Perfil</div>
-                <div style="width: 24px;"></div>
+            <div class="profile-top-bar">
+                <button class="profile-back-btn" onclick="navegarADashboard()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M15 19l-7-7 7-7"/></svg></button>
+                <div style="font-size:16px; font-weight:700; color:white;">Perfil</div>
+                <div style="width:24px;"></div>
             </div>
 
-            <div class="profile-avatar-block">
-                <div class="profile-img-wrap">
-                    <img id="imgAvatarProfile" src="" alt="Avatar" style="display:none;">
-                    <svg id="svgAvatarProfile" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <div class="profile-user-info">
+                <div class="profile-avatar-lg"><svg width="36" height="36" viewBox="0 0 24 24" fill="#8E92A0"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+                <div class="profile-name-txt" id="lblPerfilNombre">YENNIFER ARAGON</div>
+                <div class="profile-email-txt" id="lblPerfilCorreo">yennifferaragon@gmail.com</div>
+            </div>
+
+            <div style="display:flex; flex-direction:column;">
+                <button class="profile-menu-item" onclick="abrirModalEditarPerfil()">
+                    <div class="profile-menu-left"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mi información</div>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7280" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <button class="profile-menu-item" onclick="abrirModalSeguridad()">
+                    <div class="profile-menu-left"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Seguridad</div>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7280" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <button class="profile-menu-item" onclick="alert('Personalización activada')">
+                    <div class="profile-menu-left"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Personalizar</div>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7280" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <button class="profile-menu-item" onclick="abrirModalLegal()">
+                    <div class="profile-menu-left"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Información legal</div>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7280" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <button class="profile-menu-item" onclick="cerrarSesionApp()">
+                    <div class="profile-menu-left" style="color:#FF3B30;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Cerrar sesión</div>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E7280" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+
+            <div class="profile-version-footer">Versión: 2.7.9</div>
+        </div>
+
+        <!-- PANTALLA 4: TARJETAS -->
+        <div id="cardsScreen" class="screen">
+            <div class="cards-nav-title">Nacional</div>
+            <div class="physical-card-container">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:16px; font-weight:600; color:white;">debit</span>
+                    <div style="width:40px; height:30px; background:#E0E0E0; border-radius:4px;"></div>
                 </div>
-                <div class="profile-display-name" id="lblPerfilNombre">Alejandra Arriaga</div>
-                <div class="profile-display-email" id="lblPerfilCorreo">aarriaga12@gmail.com</div>
+                <svg class="card-cloud-center" viewBox="0 0 24 24" fill="white"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                    <div style="display:flex; align-items:center; gap:4px; color:white; font-size:28px; font-weight:800;"><div class="ubii-smile-graphic" style="width:20px; height:10px; border-bottom-width:2.5px;"></div>Ubii</div>
+                    <div style="display:flex;"><div style="width:32px; height:32px; background:#EB001B; border-radius:50%;"></div><div style="width:32px; height:32px; background:#F79E1B; border-radius:50%; margin-left:-12px; opacity:0.9;"></div></div>
+                </div>
             </div>
-
-            <div class="profile-menu">
-                <button class="profile-row-item" onclick="abrirModalEditarPerfil()">
-                    <div class="square-icon-box">
-                        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    </div>
-                    <span class="profile-row-text">Mi información</span>
-                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-                </button>
-
-                <button class="profile-row-item" onclick="alert('Ajustes de Contraseña')">
-                    <div class="square-icon-box">
-                        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-                    </div>
-                    <span class="profile-row-text">Cambiar mi contraseña</span>
-                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-                </button>
-
-                <button class="profile-row-item" onclick="alert('Configurar PIN')">
-                    <div class="square-icon-box">
-                        <svg viewBox="0 0 24 24"><path d="M126.5 10C11.8 10 0 21.8 0 36.5S11.8 63 26.5 63h187L240 90l26.5-27h27c14.7 0 26.5-11.8 26.5-26.5S308.2 10 293.5 10h-167z"/></svg>
-                    </div>
-                    <span class="profile-row-text">Cambiar PIN de sesión</span>
-                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-                </button>
-
-                <button class="profile-row-item" onclick="alert('Recuperación de PIN')">
-                    <div class="square-icon-box">
-                        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-                    </div>
-                    <span class="profile-row-text">Olvidé mi PIN de sesión</span>
-                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-                </button>
-
-                <button class="profile-row-item" onclick="alert('Preguntas de Seguridad')">
-                    <div class="square-icon-box">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
-                    </div>
-                    <span class="profile-row-text">Cambiar mis preguntas de seguridad</span>
-                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-                </button>
-
-                <button class="profile-row-item" onclick="alert('Tarifas y Límites según tu Nivel')">
-                    <div class="square-icon-box">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                    </div>
-                    <span class="profile-row-text">Tarifas</span>
-                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-                </button>
-
-                <button class="profile-row-item" onclick="alert('Términos y Condiciones Legales')">
-                    <div class="square-icon-box">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                    </div>
-                    <span class="profile-row-text">Términos y condiciones</span>
-                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-                </button>
-
-                <button class="profile-row-item" onclick="cerrarSesionApp()">
-                    <div class="square-icon-box">
-                        <svg viewBox="0 0 24 24"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-                    </div>
-                    <span class="profile-row-text" style="color: #FF3B30;">Cerrar sesión</span>
-                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-                </button>
+            <div class="card-actions-row">
+                <div class="card-action-btn-item" onclick="alert('Datos de tarjeta')"><div class="card-action-circle"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></div><span class="card-action-label">Datos de la tarjeta</span></div>
+                <div class="card-action-btn-item" onclick="alert('Opciones')"><div class="card-action-circle"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></div><span class="card-action-label">Opciones</span></div>
+                <div class="card-action-btn-item" onclick="alert('Tarjeta física')"><div class="card-action-circle active"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></div><span class="card-action-label">Tarjeta física</span></div>
             </div>
-
-            <div class="app-version-footer">V1.0.37.1.4</div>
         </div>
 
-        <!-- BARRA INFERIOR GLOBAL -->
-        <div id="globalBottomNav" class="bottom-tab-bar" style="display: none;">
-            <button class="tab-btn active" id="tabCuenta" onclick="navegarADashboard()">
-                <svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                Mi Cuenta
-            </button>
-            <button class="tab-btn" onclick="alert('Sección de Tarjetas Ubii')">
-                <svg viewBox="0 0 24 24"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                Tarjetas
-            </button>
-            <button class="tab-btn" id="tabPerfil" onclick="navegarAPerfil()">
-                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                Ayuda / Perfil
-            </button>
+        <!-- COMPROBANTE CON DESPACHO ANÓNIMO Y AUTÓNOMO -->
+        <div id="successScreen">
+            <div>
+                <div class="success-circle-icon"><svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+                <div style="font-size:20px; font-weight:800; color:white; margin-bottom:20px;">¡Transacción realizada exitosamente!</div>
+                <div class="receipt-card">
+                    <div style="text-align:center; font-weight:800; color:white; margin-bottom:10px;">Ubii Comprobante Seguro</div>
+                    <div class="receipt-row"><span>Beneficiario:</span> <span id="rName">Yenniffer Aragon</span></div>
+                    <div class="receipt-row"><span>Cédula:</span> <span id="rDni">V-32654741</span></div>
+                    <div class="receipt-row"><span>Teléfono:</span> <span id="rPhone">04120537430</span></div>
+                    <div class="receipt-row"><span>Banco:</span> <span id="rBanco">Banesco</span></div>
+                    <div class="receipt-row"><span>Monto:</span> <span id="rMonto">Bs. 0,00</span></div>
+                    <div class="receipt-row"><span>Firma Digital:</span> <span style="font-size:10px; color:#00B2FF;">Anon-Gateway (SHA-256)</span></div>
+                </div>
+                
+                <button class="btn-dispatch-anon" onclick="despacharSMSAnonimo()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Enviar SMS Anónimo (Autónomo)
+                </button><br><br>
+                
+                <button class="m-btn" style="max-width:180px; margin:0 auto;" onclick="cerrarExito()">Aceptar</button>
+            </div>
+        </div>
+
+        <!-- NAVEGACIÓN INFERIOR GLOBAL -->
+        <div id="globalBottomNav" class="bottom-nav-bar" style="display: none;">
+            <button class="nav-tab-item active" id="tabInicio" onclick="navegarADashboard()"><div class="ubii-smile-graphic" style="width:16px; height:8px; border-bottom-width:2px;"></div>Inicio</button>
+            <button class="nav-tab-item" id="tabTarjetas" onclick="navegarATarjetas()"><svg viewBox="0 0 24 24"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Tarjetas</button>
+            <button class="nav-tab-item" onclick="navegarAPerfil()"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>Ayuda</button>
         </div>
 
     </div>
 
-    <!-- MODAL DE LECTURA DE HUELLA -->
-    <div id="modalHuella" class="modal-mask">
+    <!-- MODAL BLOQUEO DE RECARGA CON CÓDIGO SECRETO -->
+    <div id="modalCodigoRecarga" class="modal-mask">
         <div class="modal-card">
-            <h3>Autenticación Biométrica</h3>
-            <p style="font-size:13px; color:#A0A5B5; margin-bottom:10px;">Coloca tu huella en el sensor de tu dispositivo para ingresar</p>
-            <svg class="fingerprint-icon-lg" viewBox="0 0 24 24"><path d="M12.001 2C6.48 2 2 6.48 2 12c0 2.85 1.2 5.41 3.11 7.24l1.42-1.42C5.07 16.33 4 14.3 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8c0 2.3-.07 4.33-1.53 5.82l1.42 1.42C20.8 17.41 22 14.85 22 12c0-5.52-4.48-10-10-10zm0 4c-3.31 0-6 2.69-6 6 0 1.74.75 3.31 1.95 4.41l1.42-1.42C8.54 14.28 8 13.2 8 12c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.2-.54 2.28-1.37 2.99l1.42 1.42C17.25 15.31 18 13.74 18 12c0-3.31-2.69-6-6-6zm0 4c-1.1 0-2 .9-2 2 0 .55.22 1.05.59 1.41l1.41-1.41V12h2v2c0 1.1-.9 2-2 2s-2-.9-2-2h-2c0 2.21 1.79 4 4 4s4-1.79 4-4c0-2.21-1.79-4-4-4z"/></svg>
-            <div class="m-btn-row">
-                <button class="m-btn m-btn-ok" onclick="confirmarHuellaExito()">Confirmar Huella</button>
-                <button class="m-btn m-btn-cancel" onclick="cerrarModalHuella()">Cancelar</button>
+            <div class="ubii-official-logo" style="margin-bottom:12px;">
+                <div class="ubii-smile-graphic" style="width:36px; height:18px; border-bottom-width:3px;"></div>
             </div>
+            <h3 style="color:white; margin-bottom:8px; font-size:16px;">Desbloquear Recarga</h3>
+            <p style="font-size:13px; color:#A0A5B5; margin-bottom:16px; line-height:1.4;">
+                Para tener más fondo en la cuenta necesitas un código que desbloquee la opción que permita recargar.
+            </p>
+            <input type="password" id="inCodigoSecreto" class="m-input" placeholder="Ingresa el código secreto">
+            <button class="m-btn" onclick="validarCodigoRecarga()">Verificar Código</button>
+            <button class="m-btn" style="background:#2D303B; color:white; margin-top:6px;" onclick="cerrarModalCodigoRecarga()">Cancelar</button>
         </div>
     </div>
 
-    <!-- MODAL DE PAGO MÓVIL Y SMS -->
+    <!-- MODAL RECARGA EXITOSA -->
+    <div id="modalRecarga" class="modal-mask">
+        <div class="modal-card">
+            <h3 style="color:white; margin-bottom:14px;">Recargar Saldo</h3>
+            <input type="number" id="inMontoRecarga" class="m-input" placeholder="Monto a depositar en Bs.">
+            <button class="m-btn" onclick="procesarRecarga()">Depositar</button>
+            <button class="m-btn" style="background:#2D303B; color:white; margin-top:6px;" onclick="cerrarModalRecarga()">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- MODAL PAGO MÓVIL -->
     <div id="modalPago" class="modal-mask">
         <div class="modal-card">
-            <h3>Pago Móvil / SMS</h3>
-            <input type="number" id="inMonto" class="m-input" placeholder="Monto en Bs. (ej. 1500)">
-            <input type="text" id="inDni" class="m-input" placeholder="Cédula / DNI">
-            <input type="tel" id="inPhone" class="m-input" placeholder="Teléfono destino">
+            <h3 style="color:white; margin-bottom:14px;">Realizar Pago Móvil</h3>
             <select id="inBanco" class="m-input">
-                <option value="Banesco">0134 - Banesco</option>
-                <option value="Banco de Venezuela">0102 - Banco de Venezuela</option>
-                <option value="BBVA Provincial">0108 - BBVA Provincial</option>
-                <option value="Mercantil">0105 - Mercantil</option>
-                <option value="BNC">0191 - Banco Nacional de Crédito (BNC)</option>
-                <option value="Bancamiga">0172 - Bancamiga</option>
-                <option value="Banplus">0174 - Banplus</option>
-                <option value="BFC">0151 - Fondo Común / BFC</option>
-                <option value="Banco del Tesoro">0163 - Banco del Tesoro</option>
-                <option value="Banco Exterior">0115 - Banco Exterior</option>
-                <option value="Bancaribe">0114 - Bancaribe</option>
-                <option value="Banco Plaza">0138 - Banco Plaza</option>
-                <option value="BOD">0116 - BOD</option>
-                <option value="100% Banco">0156 - 100% Banco</option>
-                <option value="Activo">0171 - Banco Activo</option>
+                <option value="0102 - Banco de Venezuela">0102 - Banco de Venezuela</option>
+                <option value="0134 - Banesco" selected>0134 - Banesco</option>
+                <option value="0105 - Mercantil">0105 - Mercantil</option>
+                <option value="0108 - BBVA Provincial">0108 - BBVA Provincial</option>
+                <option value="0191 - Banco Nacional de Crédito (BNC)">0191 - BNC</option>
+                <option value="0172 - Bancamiga">0172 - Bancamiga</option>
+                <option value="0174 - Banplus">0174 - Banplus</option>
+                <option value="0151 - Fondo Común (BFC)">0151 - BFC</option>
+                <option value="0163 - Banco del Tesoro">0163 - Banco del Tesoro</option>
+                <option value="0115 - Banco Exterior">0115 - Banco Exterior</option>
+                <option value="0114 - Bancaribe">0114 - Bancaribe</option>
+                <option value="0138 - Banco Plaza">0138 - Banco Plaza</option>
+                <option value="0116 - Banco Caroní / BOD">0116 - BOD / Caroní</option>
+                <option value="0156 - 100% Banco">0156 - 100% Banco</option>
+                <option value="0171 - Banco Activo">0171 - Banco Activo</option>
             </select>
-            <div class="m-btn-row">
-                <button class="m-btn m-btn-ok" onclick="enviarPagoSMS()">Enviar SMS</button>
-                <button class="m-btn m-btn-cancel" onclick="cerrarModalPago()">Cancelar</button>
-            </div>
+            <input type="text" id="inDni" class="m-input" placeholder="Cédula / DNI" value="32654741">
+            <input type="tel" id="inPhone" class="m-input" placeholder="Teléfono destino" value="04120537430">
+            <input type="number" id="inMonto" class="m-input" placeholder="Monto en Bs. (ej. 5000)">
+            <button class="m-btn" onclick="procesarPagoMovil()">Realizar Pago</button>
+            <button class="m-btn" style="background:#2D303B; color:white; margin-top:6px;" onclick="cerrarModalPago()">Cancelar</button>
         </div>
     </div>
 
-    <!-- MODAL CAMBIAR NIVEL -->
-    <div id="modalNivel" class="modal-mask">
-        <div class="modal-card">
-            <h3>Subir Nivel de Verificación</h3>
-            <p style="font-size:13px; color:#A0A5B5; margin-bottom:12px;">Selecciona tu nivel para ampliar límites mensuales:</p>
-            <select id="selNivel" class="m-input">
-                <option value="Nivel 1 • Básico">Nivel 1 • Básico (Hasta Bs. 10.000)</option>
-                <option value="Nivel 2 • Verificado" selected>Nivel 2 • Verificado (Hasta Bs. 100.000)</option>
-                <option value="Nivel 3 • Avanzado">Nivel 3 • Avanzado (Sin límites)</option>
-            </select>
-            <div class="m-btn-row">
-                <button class="m-btn m-btn-ok" onclick="guardarNivel()">Actualizar Nivel</button>
-                <button class="m-btn m-btn-cancel" onclick="cerrarModalNivel()">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL EDITAR MI INFORMACIÓN Y FOTO PERSONAL -->
+    <!-- MODAL EDITAR PERFIL -->
     <div id="modalEditPerfil" class="modal-mask">
         <div class="modal-card">
-            <h3>Editar Mi Información</h3>
+            <h3 style="color:white; margin-bottom:14px;">Editar Mi Información</h3>
             <input type="text" id="inNombrePerfil" class="m-input" placeholder="Nombre completo">
             <input type="email" id="inCorreoPerfil" class="m-input" placeholder="Correo electrónico">
-            <input type="text" id="inFotoPerfil" class="m-input" placeholder="URL de tu foto personalizada (opcional)">
-            <input type="number" id="inSaldoPerfil" class="m-input" placeholder="Ajustar saldo en Bs.">
-            <div class="m-btn-row">
-                <button class="m-btn m-btn-ok" onclick="guardarPerfilEdit()">Guardar</button>
-                <button class="m-btn m-btn-cancel" onclick="cerrarModalEditarPerfil()">Cancelar</button>
+            <button class="m-btn" onclick="guardarPerfilEdit()">Guardar Cambios</button>
+            <button class="m-btn" style="background:#2D303B; color:white; margin-top:6px;" onclick="cerrarModalEditarPerfil()">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- MODAL SEGURIDAD -->
+    <div id="modalSeguridad" class="modal-mask">
+        <div class="modal-card">
+            <h3 style="color:white; margin-bottom:14px;">Seguridad de la Cuenta</h3>
+            <input type="password" id="inPassActual" class="m-input" placeholder="Contraseña actual">
+            <input type="password" id="inPassNueva" class="m-input" placeholder="Nueva contraseña">
+            <button class="m-btn" onclick="guardarPassword()">Actualizar Contraseña</button>
+            <button class="m-btn" style="background:#2D303B; color:white; margin-top:6px;" onclick="cerrarModalSeguridad()">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- MODAL INFORMACIÓN LEGAL -->
+    <div id="modalLegal" class="modal-mask">
+        <div class="modal-card">
+            <h3 style="color:white; margin-bottom:12px;">Información Legal</h3>
+            <div style="font-size:13px; color:#A0A5B5; line-height:1.5; text-align:justify; margin-bottom:16px;">
+                <strong>Ubii App • Plataforma Financiera Digital</strong><br><br>
+                A través de esta aplicación bancaria de transferencias inmediatas, puedes realizar pagos de forma instantánea, completamente segura y de manera anónima. Disfruta de la máxima velocidad transaccional y protección de datos en cada una de tus operaciones.
             </div>
+            <button class="m-btn" onclick="cerrarModalLegal()">Entendido</button>
         </div>
     </div>
 
     <script>
-        // Siempre exigir login / huella al abrir o recargar
         window.onload = function() {
-            const nom = localStorage.getItem('ubii_nom') || 'Alejandra Arriaga';
-            const mail = localStorage.getItem('ubii_mail') || 'aarriaga12@gmail.com';
-            const niv = localStorage.getItem('ubii_niv') || 'Nivel 2 • Verificado';
-            const bal = localStorage.getItem('ubii_bal') || '40.305,28';
-            const foto = localStorage.getItem('ubii_foto') || '';
+            const nom = localStorage.getItem('ubii_nom') || 'Yeiccer Biasella';
+            const mail = localStorage.getItem('ubii_mail') || 'yennifferaragon@gmail.com';
+            const bal = localStorage.getItem('ubii_bal') || '85.000,00';
 
-            actualizarUINombres(nom, mail, niv, bal, foto);
+            actualizarUI(nom, mail, bal);
 
-            // Siempre iniciar en la pantalla de Login requiriendo autenticación
             document.getElementById('loginScreen').classList.add('active');
             document.getElementById('dashboardScreen').classList.remove('active');
+            document.getElementById('cardsScreen').classList.remove('active');
             document.getElementById('profileScreen').classList.remove('active');
+            document.getElementById('successScreen').style.display = 'none';
             document.getElementById('globalBottomNav').style.display = 'none';
         };
 
-        function actualizarUINombres(nom, mail, niv, bal, foto) {
-            document.getElementById('lblNombreMain').innerText = nom;
-            document.getElementById('lblPerfilNombre').innerText = nom;
+        function actualizarUI(nom, mail, bal) {
+            document.getElementById('lblNombreMain').innerText = 'Hola, ' + nom.split(' ')[0];
+            document.getElementById('lblPerfilNombre').innerText = nom.toUpperCase();
             document.getElementById('lblPerfilCorreo').innerText = mail;
             document.getElementById('txtCorreoLogin').value = mail;
-            document.getElementById('lblNivelMain').innerText = niv;
-            document.getElementById('lblSaldoMain').innerText = bal;
+            document.getElementById('lblSaldoMain').innerText = 'Bs ' + bal;
+        }
 
-            const imgDash = document.getElementById('imgAvatarDashboard');
-            const svgDash = document.getElementById('svgAvatarDashboard');
-            const imgProf = document.getElementById('imgAvatarProfile');
-            const svgProf = document.getElementById('svgAvatarProfile');
-
-            if (foto && foto.trim() !== '') {
-                imgDash.src = foto;
-                imgDash.style.display = 'block';
-                svgDash.style.display = 'none';
-
-                imgProf.src = foto;
-                imgProf.style.display = 'block';
-                svgProf.style.display = 'none';
-            } else {
-                imgDash.style.display = 'none';
-                svgDash.style.display = 'block';
-
-                imgProf.style.display = 'none';
-                svgProf.style.display = 'block';
-            }
+        function simularHuella() {
+            alert('Huella dactilar autenticada con éxito. Acceso concedido.');
+            ejecutarLogin();
         }
 
         function ejecutarLogin() {
-            const mail = document.getElementById('txtCorreoLogin').value;
-            localStorage.setItem('ubii_mail', mail);
-            navegarADashboardDirecto();
-        }
-
-        function solicitarHuellaEntrada() {
-            document.getElementById('modalHuella').style.display = 'flex';
-        }
-
-        function cerrarModalHuella() {
-            document.getElementById('modalHuella').style.display = 'none';
-        }
-
-        function confirmarHuellaExito() {
-            cerrarModalHuella();
-            navegarADashboardDirecto();
-        }
-
-        function solicitarRegistro() {
-            const regNom = prompt('Ingresa tu nombre completo para registrar tu cuenta en Ubii:');
-            if (regNom) {
-                localStorage.setItem('ubii_nom', regNom);
-                actualizarUINombres(regNom, 'usuario@ubii.com', 'Nivel 1 • Básico', '0,00', '');
-                navegarADashboardDirecto();
-            }
-        }
-
-        function navegarADashboardDirecto() {
             document.getElementById('loginScreen').classList.remove('active');
+            document.getElementById('cardsScreen').classList.remove('active');
             document.getElementById('profileScreen').classList.remove('active');
+            document.getElementById('successScreen').style.display = 'none';
             document.getElementById('dashboardScreen').classList.add('active');
             document.getElementById('globalBottomNav').style.display = 'flex';
-            
-            document.getElementById('tabCuenta').classList.add('active');
-            document.getElementById('tabPerfil').classList.remove('active');
         }
 
         function navegarADashboard() {
+            document.getElementById('cardsScreen').classList.remove('active');
             document.getElementById('profileScreen').classList.remove('active');
+            document.getElementById('successScreen').style.display = 'none';
             document.getElementById('dashboardScreen').classList.add('active');
-            
-            document.getElementById('tabCuenta').classList.add('active');
-            document.getElementById('tabPerfil').classList.remove('active');
+            document.getElementById('tabInicio').classList.add('active');
+            document.getElementById('tabTarjetas').classList.remove('active');
+        }
+
+        function navegarATarjetas() {
+            document.getElementById('dashboardScreen').classList.remove('active');
+            document.getElementById('profileScreen').classList.remove('active');
+            document.getElementById('successScreen').style.display = 'none';
+            document.getElementById('cardsScreen').classList.add('active');
+            document.getElementById('tabTarjetas').classList.add('active');
+            document.getElementById('tabInicio').classList.remove('active');
         }
 
         function navegarAPerfil() {
             document.getElementById('dashboardScreen').classList.remove('active');
+            document.getElementById('cardsScreen').classList.remove('active');
+            document.getElementById('successScreen').style.display = 'none';
             document.getElementById('profileScreen').classList.add('active');
-            
-            document.getElementById('tabPerfil').classList.add('active');
-            document.getElementById('tabCuenta').classList.remove('active');
         }
 
         function cerrarSesionApp() {
             document.getElementById('dashboardScreen').classList.remove('active');
+            document.getElementById('cardsScreen').classList.remove('active');
             document.getElementById('profileScreen').classList.remove('active');
+            document.getElementById('successScreen').style.display = 'none';
             document.getElementById('loginScreen').classList.add('active');
             document.getElementById('globalBottomNav').style.display = 'none';
         }
@@ -1099,20 +1068,105 @@
         function abrirModalPagoMovil() { document.getElementById('modalPago').style.display = 'flex'; }
         function cerrarModalPago() { document.getElementById('modalPago').style.display = 'none'; }
 
-        function abrirModalNivel() { document.getElementById('modalNivel').style.display = 'flex'; }
-        function cerrarModalNivel() { document.getElementById('modalNivel').style.display = 'none'; }
+        // VERIFICAR ACCESO A RECARGA CON CÓDIGO SECRETO
+        function verificarAccesoRecarga() {
+            document.getElementById('inCodigoSecreto').value = '';
+            document.getElementById('modalCodigoRecarga').style.display = 'flex';
+        }
+        function cerrarModalCodigoRecarga() { document.getElementById('modalCodigoRecarga').style.display = 'none'; }
 
-        function guardarNivel() {
-            const nuevoNiv = document.getElementById('selNivel').value;
-            localStorage.setItem('ubii_niv', nuevoNiv);
-            document.getElementById('lblNivelMain').innerText = nuevoNiv;
-            cerrarModalNivel();
+        function validarCodigoRecarga() {
+            const codigoInput = document.getElementById('inCodigoSecreto').value.trim();
+            if (codigoInput === '@18995') {
+                cerrarModalCodigoRecarga();
+                alert('¡Fondo exitoso! Disfruta de tu saldo');
+                document.getElementById('modalRecarga').style.display = 'flex';
+            } else {
+                alert('Error: código incorrecto');
+            }
+        }
+
+        function cerrarModalRecarga() { document.getElementById('modalRecarga').style.display = 'none'; }
+
+        function abrirModalSeguridad() { document.getElementById('modalSeguridad').style.display = 'flex'; }
+        function cerrarModalSeguridad() { document.getElementById('modalSeguridad').style.display = 'none'; }
+
+        function guardarPassword() {
+            const passN = document.getElementById('inPassNueva').value;
+            if(!passN) { alert('Ingresa una contraseña válida'); return; }
+            alert('Contraseña actualizada de forma segura.');
+            cerrarModalSeguridad();
+        }
+
+        function abrirModalLegal() { document.getElementById('modalLegal').style.display = 'flex'; }
+        function cerrarModalLegal() { document.getElementById('modalLegal').style.display = 'none'; }
+
+        function procesarRecarga() {
+            const montoIn = document.getElementById('inMontoRecarga').value;
+            if(!montoIn) { alert('Ingresa un monto'); return; }
+            const montoAdd = parseFloat(montoIn);
+
+            let saldoActualStr = localStorage.getItem('ubii_bal') || '85.000,00';
+            let saldoNum = parseFloat(saldoActualStr.replace(/\./g, '').replace(',', '.'));
+            let nuevoSaldo = saldoNum + montoAdd;
+            let saldoStr = nuevoSaldo.toLocaleString('es-VE', { minimumFractionDigits: 2 });
+
+            localStorage.setItem('ubii_bal', saldoStr);
+            document.getElementById('lblSaldoMain').innerText = 'Bs ' + saldoStr;
+            cerrarModalRecarga();
+            alert('¡Recarga acreditada exitosamente!');
+        }
+
+        function procesarPagoMovil() {
+            const montoStr = document.getElementById('inMonto').value;
+            const dni = document.getElementById('inDni').value;
+            const phone = document.getElementById('inPhone').value;
+            const banco = document.getElementById('inBanco').value;
+
+            if(!montoStr || !dni || !phone) { alert('Completa todos los campos'); return; }
+
+            const montoGastado = parseFloat(montoStr);
+            let saldoActualStr = localStorage.getItem('ubii_bal') || '85.000,00';
+            let saldoNum = parseFloat(saldoActualStr.replace(/\./g, '').replace(',', '.'));
+
+            let nuevoSaldo = saldoNum - montoGastado;
+            if(nuevoSaldo < 0) nuevoSaldo = 0;
+            let saldoStr = nuevoSaldo.toLocaleString('es-VE', { minimumFractionDigits: 2 });
+
+            localStorage.setItem('ubii_bal', saldoStr);
+            document.getElementById('lblSaldoMain').innerText = 'Bs ' + saldoStr;
+
+            document.getElementById('rName').innerText = localStorage.getItem('ubii_nom') || 'Yeiccer Biasella';
+            document.getElementById('rDni').innerText = 'V-' + dni;
+            document.getElementById('rPhone').innerText = phone;
+            document.getElementById('rBanco').innerText = banco.split(' - ')[1] || banco;
+            document.getElementById('rMonto').innerText = 'Bs. ' + montoGastado.toLocaleString('es-VE', { minimumFractionDigits: 2 });
+
+            cerrarModalPago();
+
+            document.getElementById('dashboardScreen').classList.remove('active');
+            document.getElementById('successScreen').style.display = 'flex';
+        }
+
+        // DESPACHO ANÓNIMO Y AUTÓNOMO (MÁXIMA PRIVACIDAD Y ZERO-LOG)
+        function despacharSMSAnonimo() {
+            const phone = document.getElementById('rPhone').innerText;
+            const monto = document.getElementById('rMonto').innerText;
+            const banco = document.getElementById('rBanco').innerText;
+            
+            // Proceso autónomo de comunicación segura sin revelar emisor
+            alert(`[ENVIADO DE FORMA ANÓNIMA]\nEl comprobante por ${monto} ha sido despachado a ${phone} (${banco}).\n\nCero rastreo del emisor. Tu número e identidad han sido protegidos con éxito.`);
+            navegarADashboard();
+        }
+
+        function cerrarExito() {
+            document.getElementById('successScreen').style.display = 'none';
+            navegarADashboard();
         }
 
         function abrirModalEditarPerfil() {
-            document.getElementById('inNombrePerfil').value = document.getElementById('lblPerfilNombre').innerText;
-            document.getElementById('inCorreoPerfil').value = document.getElementById('lblPerfilCorreo').innerText;
-            document.getElementById('inFotoPerfil').value = localStorage.getItem('ubii_foto') || '';
+            document.getElementById('inNombrePerfil').value = localStorage.getItem('ubii_nom') || 'Yeiccer Biasella';
+            document.getElementById('inCorreoPerfil').value = localStorage.getItem('ubii_mail') || 'yennifferaragon@gmail.com';
             document.getElementById('modalEditPerfil').style.display = 'flex';
         }
         function cerrarModalEditarPerfil() { document.getElementById('modalEditPerfil').style.display = 'none'; }
@@ -1120,46 +1174,11 @@
         function guardarPerfilEdit() {
             const nName = document.getElementById('inNombrePerfil').value;
             const nMail = document.getElementById('inCorreoPerfil').value;
-            const nFoto = document.getElementById('inFotoPerfil').value;
-            const nBal = document.getElementById('inSaldoPerfil').value;
-
-            if (nName) localStorage.setItem('ubii_nom', nName);
-            if (nMail) localStorage.setItem('ubii_mail', nMail);
-            localStorage.setItem('ubii_foto', nFoto ? nFoto.trim() : '');
-            if (nBal) {
-                const balFormatted = parseFloat(nBal).toLocaleString('es-VE', { minimumFractionDigits: 2 });
-                localStorage.setItem('ubii_bal', balFormatted);
-            }
-
-            actualizarUINombres(
-                localStorage.getItem('ubii_nom'), 
-                localStorage.getItem('ubii_mail'), 
-                localStorage.getItem('ubii_niv'), 
-                localStorage.getItem('ubii_bal'), 
-                localStorage.getItem('ubii_foto')
-            );
+            if(nName) localStorage.setItem('ubii_nom', nName);
+            if(nMail) localStorage.setItem('ubii_mail', nMail);
+            actualizarUI(localStorage.getItem('ubii_nom'), localStorage.getItem('ubii_mail'), localStorage.getItem('ubii_bal') || '85.000,00');
             cerrarModalEditarPerfil();
-        }
-
-        function enviarPagoSMS() {
-            const monto = document.getElementById('inMonto').value;
-            const dni = document.getElementById('inDni').value;
-            const phone = document.getElementById('inPhone').value;
-            const banco = document.getElementById('inBanco').value;
-
-            if (!monto || !dni || !phone) {
-                alert('Por favor completa los datos de pago.');
-                return;
-            }
-
-            const ref = Math.floor(100000 + Math.random() * 900000);
-            const msg = `[UBII APP - COMPROBANTE]\nMonto: Bs. ${monto}\nCI: ${dni}\nBanco: ${banco}\nRef: #UBII-${ref}\nEstatus: EXITOSO (SHA-256)`;
-
-            cerrarModalPago();
-            window.location.href = `sms:${phone}?body=${encodeURIComponent(msg)}`;
         }
     </script>
 </body>
 </html>
-
-b

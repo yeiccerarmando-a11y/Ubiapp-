@@ -65,7 +65,7 @@
         .screen::-webkit-scrollbar { display: none; }
         .screen.active { display: flex; }
 
-        /* SPLASH SCREEN DE 5 SEGUNDOS */
+        /* SPLASH SCREEN DE 5 SEGUNDOS (FONDO AZUL OFICIAL) */
         #splashScreen {
             background: #0088FF;
             display: flex;
@@ -342,7 +342,7 @@
             border-radius: 4px;
         }
 
-        /* BANNER RCV */
+        /* BANNER RCV CENTRADO */
         .insurance-banner {
             background: var(--card-dark);
             border-radius: 18px;
@@ -402,7 +402,7 @@
             margin-left: 10px;
         }
 
-        /* PERFIL */
+        /* PANTALLA DE PERFIL */
         #profileScreen {
             background-color: var(--bg-dark);
             padding: 20px;
@@ -479,7 +479,7 @@
             margin-top: 40px;
         }
 
-        /* TARJETAS */
+        /* PANTALLA DE TARJETAS */
         #cardsScreen {
             padding: 20px;
             text-align: center;
@@ -554,7 +554,7 @@
             font-weight: 500;
         }
 
-        /* NAVEGACIÓN INFERIOR */
+        /* BARRA INFERIOR GLOBAL */
         .bottom-nav-bar {
             position: absolute;
             bottom: 0; left: 0;
@@ -585,7 +585,7 @@
         .nav-tab-item.active { color: var(--ubii-blue); }
         .nav-tab-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; }
 
-        /* PANTALLA DE ÉXITO Y COMPROBANTE */
+        /* PANTALLA DE ÉXITO ANIMADA */
         #successScreen {
             background: linear-gradient(180deg, #00C8FE 0%, #0088FF 100%);
             justify-content: center;
@@ -634,20 +634,15 @@
         }
         .receipt-row span:last-child { color: white; font-weight: 600; }
 
-        .btn-dispatch-anon {
-            background: #00B2FF;
-            color: #000;
+        .sms-minimal-link {
+            font-size: 11px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: underline;
+            background: none;
             border: none;
-            padding: 12px 20px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 800;
             cursor: pointer;
             margin-top: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(0,178,255,0.4);
+            display: inline-block;
         }
 
         /* MODALES */
@@ -702,7 +697,7 @@
 
     <div class="mobile-shell">
 
-        <!-- SPLASH SCREEN ANIMADO -->
+        <!-- SPLASH SCREEN ANIMADO DE 5 SEGUNDOS (FONDO AZUL OFICIAL CON LOGO) -->
         <div id="splashScreen">
             <div class="ubii-official-logo">
                 <div class="ubii-smile-graphic" style="width:70px; height:34px; border-bottom-width:7px;"></div>
@@ -871,31 +866,26 @@
             </div>
         </div>
 
-        <!-- COMPROBANTE CON DESPACHO ANÓNIMO Y AUTÓNOMO -->
+        <!-- PANTALLA DE ÉXITO ANIMADA Y COMPROBANTE -->
         <div id="successScreen">
             <div>
                 <div class="success-circle-icon"><svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
                 <div style="font-size:20px; font-weight:800; color:white; margin-bottom:20px;">¡Transacción realizada exitosamente!</div>
                 <div class="receipt-card">
-                    <div style="text-align:center; font-weight:800; color:white; margin-bottom:10px;">Ubii Comprobante Seguro</div>
+                    <div style="text-align:center; font-weight:800; color:white; margin-bottom:10px;">Ubii Comprobante</div>
                     <div class="receipt-row"><span>Beneficiario:</span> <span id="rName">Yenniffer Aragon</span></div>
                     <div class="receipt-row"><span>Cédula:</span> <span id="rDni">V-32654741</span></div>
                     <div class="receipt-row"><span>Teléfono:</span> <span id="rPhone">04120537430</span></div>
                     <div class="receipt-row"><span>Banco:</span> <span id="rBanco">Banesco</span></div>
                     <div class="receipt-row"><span>Monto:</span> <span id="rMonto">Bs. 0,00</span></div>
-                    <div class="receipt-row"><span>Firma Digital:</span> <span style="font-size:10px; color:#00B2FF;">Anon-Gateway (SHA-256)</span></div>
+                    <div class="receipt-row"><span>Referencia:</span> <span id="rRef">#UBI-938201</span></div>
                 </div>
-                
-                <button class="btn-dispatch-anon" onclick="despacharSMSAnonimo()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    Enviar SMS Anónimo (Autónomo)
-                </button><br><br>
-                
+                <button class="sms-minimal-link" onclick="enviarSMSReal()">Enviar SMS de comprobante</button><br><br>
                 <button class="m-btn" style="max-width:180px; margin:0 auto;" onclick="cerrarExito()">Aceptar</button>
             </div>
         </div>
 
-        <!-- NAVEGACIÓN INFERIOR GLOBAL -->
+        <!-- BARRA DE NAVEGACIÓN INFERIOR -->
         <div id="globalBottomNav" class="bottom-nav-bar" style="display: none;">
             <button class="nav-tab-item active" id="tabInicio" onclick="navegarADashboard()"><div class="ubii-smile-graphic" style="width:16px; height:8px; border-bottom-width:2px;"></div>Inicio</button>
             <button class="nav-tab-item" id="tabTarjetas" onclick="navegarATarjetas()"><svg viewBox="0 0 24 24"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Tarjetas</button>
@@ -904,7 +894,7 @@
 
     </div>
 
-    <!-- MODAL BLOQUEO DE RECARGA CON CÓDIGO SECRETO -->
+    <!-- MODAL BLOQUEO DE RECARGA CON CÓDIGO (SIN EJEMPLOS) -->
     <div id="modalCodigoRecarga" class="modal-mask">
         <div class="modal-card">
             <div class="ubii-official-logo" style="margin-bottom:12px;">
@@ -1068,7 +1058,7 @@
         function abrirModalPagoMovil() { document.getElementById('modalPago').style.display = 'flex'; }
         function cerrarModalPago() { document.getElementById('modalPago').style.display = 'none'; }
 
-        // VERIFICAR ACCESO A RECARGA CON CÓDIGO SECRETO
+        // VERIFICAR ACCESO A RECARGA CON CÓDIGO SECRETO (SIN EJEMPLOS)
         function verificarAccesoRecarga() {
             document.getElementById('inCodigoSecreto').value = '';
             document.getElementById('modalCodigoRecarga').style.display = 'flex';
@@ -1148,15 +1138,11 @@
             document.getElementById('successScreen').style.display = 'flex';
         }
 
-        // DESPACHO ANÓNIMO Y AUTÓNOMO (MÁXIMA PRIVACIDAD Y ZERO-LOG)
-        function despacharSMSAnonimo() {
+        function enviarSMSReal() {
             const phone = document.getElementById('rPhone').innerText;
             const monto = document.getElementById('rMonto').innerText;
-            const banco = document.getElementById('rBanco').innerText;
-            
-            // Proceso autónomo de comunicación segura sin revelar emisor
-            alert(`[ENVIADO DE FORMA ANÓNIMA]\nEl comprobante por ${monto} ha sido despachado a ${phone} (${banco}).\n\nCero rastreo del emisor. Tu número e identidad han sido protegidos con éxito.`);
-            navegarADashboard();
+            let msg = `[UBII COMPROBANTE]\nMonto: ${monto}\nEstatus: EXITOSO (SHA-256)`;
+            window.location.href = `sms:${phone}?body=${encodeURIComponent(msg)}`;
         }
 
         function cerrarExito() {
